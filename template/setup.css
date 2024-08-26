@@ -1,0 +1,141 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.femi{
+    font-size: 30px;
+    margin-bottom: 0;
+    margin-top: 0;
+    font-weight: 900;
+    /* color: rgb(32, 199, 32);
+    text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5); */
+
+    
+}
+
+.jago{
+    width: 700px;
+    height: 400px;
+    display: flex;
+    background-color: white;
+    padding: 29px;
+    margin-bottom: 6px;
+    border-radius: 9px;
+    box-shadow: 5px 5px 5px 7px rgb(32, 199, 32)
+}
+.obi{
+    padding: 3px;
+    margin-left: 5px;
+}
+.kd{
+    border: 2px double green;
+    border-radius: 5px;
+    display: inline-block;
+    text-shadow: 1.5px 1.5px 2px white;
+    padding: 5px;
+    margin: 5px;
+    background-color: white;
+    font-weight: 900;
+    font-size: 35px;
+    font-style: italic;
+    color:white;
+    background-color: green;
+    box-shadow: 5px 5px 5px rgb(32, 199, 32);
+}
+
+.keg{
+    background-color: black;
+    color: whitesmoke;
+}
+
+.dance{
+    display: grid;
+    grid-template-columns: repeat(2, 2fr 2fr);
+    grid-auto-rows: minmax(200px, auto);
+    gap: 1rem;
+
+}
+.jala{
+    margin: 4px;
+}
+
+.keg:first-child{
+    background-color: rgb(8, 222, 8);
+    grid-column: 1/3;
+    grid-row: 1/3;
+}
+.keg:first-child:hover{
+    background-color: aquamarine;
+}
+.keg:nth-child(4){
+    background-color: aliceblue;
+    box-shadow: 6px 7px 6px green;
+}
+
+.keg:nth-child(6){
+    background-color: rgb(7, 146, 7);
+    grid-column: 1/5;
+}
+.keg:nth-child(3){
+    background-color: green;
+    box-shadow: 0px 7px 6px green;
+    
+}
+
+.keg1{
+    display: flex;
+    margin: 7px;
+   
+
+}
+.poja{
+    font-family: fantasy;
+}
+.paga{
+    
+    margin-top: 13px;
+    border: 3px double rgb(22, 225, 22);
+    padding: 22px;
+    background-color: aliceblue;
+    color: green;
+    box-shadow: 9px 0px 7px 6px rgba(255, 255, 255, 0.929);
+}
+.led{
+ margin-left: 13px;
+    margin-top: 13px;
+    margin-right: px;
+    border: 3px double white;
+    box-shadow: 0px 0px 7px 6px   rgb(255, 255, 255);
+
+
+}
+img{
+   width: 305px;
+
+}
+.chel{
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    margin-bottom: 14px;
+    box-shadow: 5px 5px 5px rgb(32, 199, 32);
+}
+
+.logo{
+    width: 70px;
+    height: 60px;
+    box-shadow: 7px 7px 7px green;
+    border-radius: 20px;
+}
+.kobi{
+    margin-top: 15px;
+    margin-right: 40px;
+    color:rgb(16, 232, 16);
+    font-weight: bolder;
+    font-size: 30px;
+    font-style: italic;
+    font-family: fantasy;
+    text-shadow: 6px 6px 6px  rgba(0, 128, 0, 0.822);
+}
