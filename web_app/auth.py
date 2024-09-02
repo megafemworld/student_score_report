@@ -9,7 +9,7 @@ def signup_who(who):
     # if user_id is not found in admin table, redirect
     if who == 'admin':
         if request.method == 'POST':
-            #form data
+            #for
         render_template('admin_signup.html')
     elif who == 'year':
         if request.method == 'POST':
