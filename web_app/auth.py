@@ -1,8 +1,10 @@
-from flask import Flask, request
+from flask import Flask, request, flash
+from . import form
 
 app = Flask(__name__)
 
-@app.route('/signup/who', methods=['GET', 'POST'])
+@app.route('/add/who', methods=['GET', 'POST'])
+@login_required
 def signup_who(who):
     # if user_id is not found in admin table, redirect
     if who == 'admin':
@@ -25,4 +27,16 @@ def signup_who(who):
         return "not found oooo", 404
 
 @app.route('/login', methods=['GET', 'POST'])
-def login
+def login():
+    form = LoginForm()
+    if request.method = 'POST' && form.validate_on_form():
+        user = form.user.data
+        if user.lower().startswith("st"):
+            pass
+        else if user.lower().startswith("te"):
+            pass
+        else if user.lower().startswith("adm"):
+            pass
+        else:
+            pass
+    return render_template('login.html', form=form)
