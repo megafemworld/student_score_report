@@ -1,0 +1,18 @@
+pp:
+  name: MyApp
+  version: 1.0.0
+
+database:
+  host: localhost
+  user: eben
+  password: 0267419026*Ee
+  db_name: schooldb
+
+features:
+  - authentication
+  - logging
+  - caching
+
+logging:
+  level: debug
+  file: /config.yaml
