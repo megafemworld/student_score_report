@@ -3,7 +3,7 @@ from . import form
 
 app = Flask(__name__)
 
-@app.route('/signup/who', methods=['GET', 'POST'])
+@app.route('/add/who', methods=['GET', 'POST'])
 @login_required
 def signup_who(who):
     # if user_id is not found in admin table, redirect
