@@ -1,4 +1,4 @@
-nimum Viable Product (MVP) Specification
+minimum Viable Product (MVP) Specification
 Our MVP for the Student Result Checking Portal will focus on delivering core functionality that enables students to view their academic results and teachers to manage result uploads. The key features of this MVP are outlined below:
 
 1. User Roles and Authentication:
