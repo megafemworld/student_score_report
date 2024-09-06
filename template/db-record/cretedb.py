@@ -1,5 +1,5 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, String, Integer, ForeignKey
+from sqlalchemy import Column, String, Integer, ForeignKey, DateTime, func
 from sqlalchemy.orm import relationship
 
 
@@ -13,8 +13,8 @@ class Admin(base):
     user_id = Column(Integer, primary_key=True)
     first_name = Column(String(60), nullable=False)
     last_name = Column(String(60), nullable=False)
-    password = Column(String, nullable=False)
-    photo = Column(String, nullable=True)
+    password = Column(String(100), nullable=False)
+    photo = Column(String(500), nullable=True)
 
 class Student(base):
     __tablename__ = 'student'
@@ -22,26 +22,27 @@ class Student(base):
     reg_no = Column(String, nullable=False, unique=True)
     first_name = Column(String(60), nullable=False)
     last_name = Column(String(60), nullable=False)
-    password = Column(String, nullable=False)
+    password = Column(String(100), nullable=False)
     class_id = Column(Integer, ForeignKey('class.id'))
     term_id = Column(Integer, ForeignKey('term.id'))
-
+    
 class Teacher(base):
     __tablename__ = 'teacher'
-    teach_id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)
     first_name = Column(String(60), nullable=False)
     last_name = Column(String(60), nullable=False)
-    photo = Column(String, nullable=True)
+    password = Column(String(100), nullable=False)
+    photo = Column(String(500), nullable=True)
 
 class Class(base):
     __tablename__ = 'class'
     id = Column(Integer, primary_key=True)
-    cls_name = Column(String, nullable=False, unique=True)
+    cls_name = Column(String(100), nullable=False, unique=True)
     
 class Term(base):
     __tablename__ = 'term'
     id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False, unique=True)
+    name = Column(String(100), nullable=False, unique=True)
     
 class Subject(base):
     __tablename__ = 'subject'
@@ -51,7 +52,7 @@ class Subject(base):
 class Enrollment(base):
     __tablename__ = 'enrollment'
     id = Column(Integer, primary_key=True)
-    student_id = Column(Integer, ForeignKey('student.id'))
+    student_id = Column(Integer, ForeignKey('student.reg_no'))
     subject_id = Column(Integer, ForeignKey('subject.id'))
     student = relationship("Student", back_populates="subjects")
     subject = relationship("Subject", back_populates="students")
@@ -77,6 +78,8 @@ class Score(base):
     subject_id = Column(Integer, ForeignKey('subject.id'))
     exam_score = Column(Integer, nullable=False)
     test_score = Column(Integer, nullable=False)
+    created_at = Column(DateTime, default=func.now(), nullable=False)
+    updated_at = Column(DateTime, default=func.now(), onupdate=func.now(), nullable=False)
     student = relationship("Student", back_populates="scores")
     subject = relationship("Subject", back_populates="scores")
 

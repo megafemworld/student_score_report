@@ -1,3 +1,4 @@
+
 from flask import Flask, redirect, request, flash, render_template, url_for
 """
 Renders the teacher page with assigned subjects categorized by class.
@@ -92,6 +93,7 @@ def signup_who(who):
         if request.method == 'POST':
             #form data
             return render_template('teacher_signup.html')
+>>>>>>> ee23dd1e9587dbf1f313479df60411b4d7db0a63
     else:
         return "not found oooo", 404
 
@@ -156,8 +158,7 @@ def teacher_upload():
             student_name = student['first_name'] + ' ' + student['last_name']
             )
             form.students.append_entry(student_form)
-        
-        
+
     if form.validate_on_submit():
         for student_form in form.students:
             student_id = student_form['student_id']
