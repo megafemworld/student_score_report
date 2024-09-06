@@ -114,54 +114,33 @@
 <div class="container mt-4">
     <form id="student-form">
         <!-- Form Group 1 -->
-        <div class="form-row align-items-center mb-3" id="form-1">
+        {% for student in students %}
+        <div class="form-row align-items-center mb-3" id="form-{{ loop.index }}">
             <div class="col-md-2">
-                <label for="studentId1">Student ID</label>
-                <input type="text" class="form-control" id="studentId1" value="S001" readonly>
+                <label for="studentId{{ loop.index }}">Student ID</label>
+                <input type="text" class="form-control" id="studentId{{ loop.index }}" value="{{ student.id }}" readonly>
             </div>
             <div class="col-md-2">
-                <label for="studentName1">Student Name</label>
-                <input type="text" class="form-control" id="studentName1" value="John Doe" readonly>
+                <label for="studentName{{ loop.index }}">Student Name</label>
+                <input type="text" class="form-control" id="studentName{{ loop.index }}" value="{{ student.name }}" readonly>
             </div>
             <div class="col-md-2">
-                <label for="ca1">CA</label>
-                <input type="number" class="form-control ca-input" id="ca1" placeholder="Enter CA">
+                <label for="ca{{ loop.index }}">CA</label>
+                <input type="number" class="form-control ca-input" id="ca{{ loop.index }}" placeholder="Enter CA">
             </div>
             <div class="col-md-2">
-                <label for="exam1">Exam</label>
-                <input type="number" class="form-control exam-input" id="exam1" placeholder="Enter Exam">
+                <label for="exam{{ loop.index }}">Exam</label>
+                <input type="number" class="form-control exam-input" id="exam{{ loop.index }}" placeholder="Enter Exam">
             </div>
             <div class="col-md-2">
-                <label for="total1">Total</label>
-                <input type="number" class="form-control total-input" id="total1" placeholder="Total" readonly>
-            </div>
-        </div>
-        <!-- Form Group 2 -->
-        <div class="form-row align-items-center mb-3" id="form-2">
-            <div class="col-md-2">
-                <label for="studentId2">Student ID</label>
-                <input type="text" class="form-control" id="studentId2" value="S002" readonly>
-            </div>
-            <div class="col-md-2">
-                <label for="studentName2">Student Name</label>
-                <input type="text" class="form-control" id="studentName2" value="Jane Smith" readonly>
-            </div>
-            <div class="col-md-2">
-                <label for="ca2">CA</label>
-                <input type="number" class="form-control ca-input" id="ca2" placeholder="Enter CA">
-            </div>
-            <div class="col-md-2">
-                <label for="exam2">Exam</label>
-                <input type="number" class="form-control exam-input" id="exam2" placeholder="Enter Exam">
-            </div>
-            <div class="col-md-2">
-                <label for="total2">Total</label>
-                <input type="number" class="form-control total-input" id="total2" placeholder="Total" readonly>
+                <label for="total{{ loop.index }}">Total</label>
+                <input type="number" class="form-control total-input" id="total{{ loop.index }}" placeholder="Total" readonly>
             </div>
         </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary" id="upload-all">Upload All Entries</button>
     </form>
     <!-- General Upload Button -->
-    <button type="button" class="btn btn-success" id="upload-all">Upload All Entries</button>
 </div>
 
 <!-- Bootstrap JS and dependencies -->
@@ -208,8 +187,21 @@
                 }
             });
 
-            console.log('All Entries:', allEntries);
-            alert('All entries have been uploaded! (Check the console for details.)');
+            // Send the data to the server for uploading
+            $.ajax({
+                url: '/upload-result',
+                method: 'POST',
+                data: JSON.stringify(allEntries),
+                contentType: 'application/json',
+                success: function(response) {
+                    console.log('Upload successful:', response);
+                    alert('Result uploaded successfully!');
+                },
+                error: function(error) {
+                    console.error('Upload failed:', error);
+                    alert('Failed to upload result. Please try again.');
+                }
+            });
         });
     });
 </script>

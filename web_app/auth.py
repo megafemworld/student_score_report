@@ -6,7 +6,7 @@ Returns:
 """
 from flask_login import LoginManager, UserMixin, login_required, current_user
 from functools import wraps
-from . import form
+from form import CourseForm, LoginForm, AddTeacher, AddStudent, Year, AddAdmin, AssignSubject, Subjects, StudentData, CourseForm
 
 app = Flask(__name__)
 login_manager = LoginManager()
@@ -99,7 +99,7 @@ def signup_who(who):
 def login():
     form = form.LoginForm()
     if request.method == 'POST' and form.validate_on_form():
-        user = form.user.data
+        user = form.user
         if user.lower().startswith("st"):
             if user and user['password'] == password:
                 user_obj = UserLogin(user['id'], user['username'], get_user_role(user['username']))
@@ -146,20 +146,25 @@ def teacher_upload():
     {'id': '3', 'username': 'st_student_user', 'first_name': 'Dayo', 'last_name': 'Bola', 'password': 'password', 'class_name': 'JSS3', 'year_name': '2024/2025'}
     {'id': '4', 'username': 'st_student_user', 'first_name': 'Ibrahim', 'last_name': 'Buhari', 'password': 'password', 'class_name': 'JSS1', 'year_name': '2024/2025'}
 ]
+    
+    form = CourseForm()
         
-        if request.method == 'POST':
-            for student in students:
-                student_form = form.StudentData()
-                student_form.student_id.data = student['id']
-                student_form.student_name.data = student['first_name'] + ' ' + student['last_name']
-                form.StudentData.append_entry(student_form)
+    if request.method == 'GET':
+        for student in students:
+            student_form = StudentData(
+            student_id = student['id'],
+            student_name = student['first_name'] + ' ' + student['last_name']
+            )
+            form.students.append_entry(student_form)
         
         
-        if form.validate_on_submit():
-            for student_form in form.students:
-                student_id = student_form.student_id.data
-                ca = student_form.ca.data
-                exam = student_form.exam.data
-                total = ca + exam
-                # save to database
-        return render_template('result_upload.html', form=form, students=students)
+    if form.validate_on_submit():
+        for student_form in form.students:
+            student_id = student_form['student_id']
+            ca = student_form['ca']
+            exam = student_form['exam']
+            total = ca + exam
+            # save to database
+            flash('Result uploaded successfully', 'success')
+            return redirect(url_for('teacher'))
+        return render_template('result_upload.html', form=form)
