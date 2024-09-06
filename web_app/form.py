@@ -48,8 +48,6 @@ class Subjects(FlaskForm):
     Name = StringField('Subject', validators=[DataRequired()])
     submit = SubmitField('Register')
 
-class Results(FlaskForm):
-
 class StudentData(FlaskForm):
     Student_id = StringField('Student ID', render_kw={'readonly': True})
     Student_name = StringField('Student Name', render_kw={'readonly', True})
