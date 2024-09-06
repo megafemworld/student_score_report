@@ -146,6 +146,20 @@ def teacher_upload():
     {'id': '3', 'username': 'st_student_user', 'first_name': 'Dayo', 'last_name': 'Bola', 'password': 'password', 'class_name': 'JSS3', 'year_name': '2024/2025'}
     {'id': '4', 'username': 'st_student_user', 'first_name': 'Ibrahim', 'last_name': 'Buhari', 'password': 'password', 'class_name': 'JSS1', 'year_name': '2024/2025'}
 ]
+        
+        if request.method == 'POST':
+            for student in students:
+                student_form = form.StudentData()
+                student_form.student_id.data = student['id']
+                student_form.student_name.data = student['first_name'] + ' ' + student['last_name']
+                form.StudentData.append_entry(student_form)
+        
+        
         if form.validate_on_submit():
-            pass
+            for student_form in form.students:
+                student_id = student_form.student_id.data
+                ca = student_form.ca.data
+                exam = student_form.exam.data
+                total = ca + exam
+                # save to database
         return render_template('result_upload.html', form=form, students=students)
