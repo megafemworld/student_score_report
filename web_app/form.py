@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, RadioField, SubmitField, IntergerField, SubmitField
+from wtforms import StringField, SelectField, RadioField, SubmitField, IntergerField, SubmitField,PasswordField
 from wtforms.validators import DataRequired
 from werkzeug.security import generate_password_hash,  check_password_hash
 
@@ -8,14 +8,14 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login In')
 
-class AddTeacher(FlashForm):
+class AddTeacher(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     First_Name = StringField('First Name', validators=[DataRequired()])
     Last_Name = StringField('Last Name', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Register')
 
-class AddStudent(FlashForm):
+class AddStudent(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     First_Name = StringField('First Name', validators=[DataRequired()])
     Last_Name = StringField('Last Name', validators=[DataRequired()])
@@ -23,19 +23,19 @@ class AddStudent(FlashForm):
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Register')
 
-class Year(FlashForm):
+class Year(FlaskForm):
     Name = StringField('Year', validators=[DataRequired()])
     submit = SubmitField('Register')
 
 
-class AddAdmin(FlashForm):
+class AddAdmin(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     First_Name = StringField('First Name', validators=[DataRequired()])
     Last_Name = StringField('Last Name', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Register')
 
-class AssignSubject(FlashForm):
+class AssignSubject(FlaskForm):
     Teacher = StringField('Teacher ID', validators=[DataRequired()])
     Teacher_name = 
     Subjects = SelectField('Subjects', subjects)
@@ -43,11 +43,11 @@ class AssignSubject(FlashForm):
     Term = RadioField('Term', terms)
     submit = SubmitField('Register')
 
-class Subjects(FlashForm):
+class Subjects(FlaskForm):
     Name = StringField('Subject', validators=[DataRequired()])
     submit = SubmitField('Register')
 
-class Results(FlashForm):
+class Results(FlaskForm):
     Student_id = StringField('Student ID', render_kw={'readonly': True})
     Student_name = StringField('Student Name', render_kw={'readonly', True})
     Terms = StringField('Term', render_kw={'readonly', True})

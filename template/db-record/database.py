@@ -39,20 +39,26 @@ class Database:
             print("created sucessfuly")
         except Exception as e:
             print(f"Reason being : {e}")
+            
+    def close(self):
+        if self.__session:
+            self.__session.close()
+        if self.__engine:
+            self.__engine.dispose()
+        print("Session and engine closed successfully")
   
   
         
 db = Database("eben","0267419026*Ee","localhost","schooldb")
+db.creat()
+session = db.session()
 
- 
-# db.creat()
-# session = db.session()
+session.close()
 
-ab = db.engine()
+# ab = db.engine()
 # new_user = Admin(id=1,f_name="Alice", l_name="obi")
 # session.add(new_user)
 # session.commit()
-
 
 
     

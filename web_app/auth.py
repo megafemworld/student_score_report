@@ -1,4 +1,4 @@
-from flask import Flask, request, flash
+from flask import Flask, request, flash,render_template
 from . import form
 
 app = Flask(__name__)
@@ -10,19 +10,19 @@ def signup_who(who):
     if who == 'admin':
         if request.method == 'POST':
             #for
-        render_template('admin_signup.html')
+         render_template('admin_signup.html')
     elif who == 'year':
         if request.method == 'POST':
             #form data
-        render_template('year_signup.html')
+            render_template('year_signup.html')
     elif who == 'student':
         if request.method == 'POST':
             #form data
-        render_template('student_signup.html')
+            render_template('student_signup.html')
     elif who == 'teacher':
         if request.method == 'POST':
             #form data
-        render_template('teacher_signup.html')
+            render_template('teacher_signup.html')
     else:
         return "not found oooo", 404
 
@@ -40,3 +40,5 @@ def login():
         else:
             pass
     return render_template('login.html', form=form)
+
+
