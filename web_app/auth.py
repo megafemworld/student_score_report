@@ -93,7 +93,6 @@ def signup_who(who):
         if request.method == 'POST':
             #form data
             return render_template('teacher_signup.html')
->>>>>>> ee23dd1e9587dbf1f313479df60411b4d7db0a63
     else:
         return "not found oooo", 404
 
@@ -169,3 +168,16 @@ def teacher_upload():
             flash('Result uploaded successfully', 'success')
             return redirect(url_for('teacher'))
         return render_template('result_upload.html', form=form)
+@app.route('/result/<student_id>', methods=['GET'])
+@login_required('student')
+def result(student_id):
+    #using id get student name
+    student_result = [
+        {'id': '1', 'student_id': '1', 'class_name': 'JSS1', 'year_name': '2024/2025', 'subject': 'Mathematics', 'ca': 20, 'exam': 50, 'total': 70},
+        {'id': '2', 'student_id': '1', 'class_name': 'JSS1', 'year_name': '2024/2025', 'subject': 'English Language', 'ca': 25, 'exam': 45, 'total': 70},
+        {'id': '3', 'student_id': '1', 'class_name': 'JSS1', 'year_name': '2024/2025', 'subject': 'Biology', 'ca': 30, 'exam': 40, 'total': 70},
+        {'id': '4', 'student_id': '1', 'class_name': 'JSS1', 'year_name': '2024/2025', 'subject': 'Chemistry', 'ca': 15, 'exam': 55, 'total': 70},
+        {'id': '5', 'student_id': '1', 'class_name': 'JSS1', 'year_name': '2024/2025', 'subject': 'Physics', 'ca': 10, 'exam': 60, 'total': 70}
+    ]
+    # get student result from database
+    return render_template('result.html', result=student_result)
