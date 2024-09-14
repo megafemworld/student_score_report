@@ -1,9 +1,9 @@
 from flask import Flask,render_template, request, redirect, url_for,flash
-from form import AddAdmin
 from generate import userid_generate
 from db_record.cretedb import Admin
 from werkzeug.security import check_password_hash
 from db_record.database import session
+from form import AddAdmin
 
 app = Flask(__name__, template_folder='../templates', static_folder='../temp')
 app.config['SECRET_KEY'] = 'secret'
@@ -11,19 +11,17 @@ app.config['SECRET_KEY'] = 'secret'
 @app.route('/')
 @app.route('/index.html')
 def login():
-    
     return render_template('index.html')
 
 
 @app.route('/admin.html')
 def admin():
-   
-        return render_template('admin.html')
+   return render_template('admin.html')
     
-@app.route('/admin_reg.html')
+@app.route('/admin_reg.html', methods=['POST','GET'])
 def admin_reg():
-    best = AddAdmin
-    if best.validate_on_submit:
+    best = AddAdmin()
+    if best.validate_on_submit():
         user_id = userid_generate()
         passwd =Admin.set_password(best.password.data)
         admin = Admin(user_id=user_id, 
@@ -33,7 +31,7 @@ def admin_reg():
         session.add(admin)
         session.commit()
         flash(f'Account created for {best.Last_Name.data}!', 'success')
-    return render_template('admin_reg.html')
+    return render_template('admin_reg.html', best=best)
 
 @app.route('/teacher-reg.html')
 def teach_reg():

@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import FieldList, FormField, PasswordField, IntegerField, StringField, SelectField, RadioField, SubmitField
-from wtforms.validators import DataRequired, NumberRange,Length
-from wtforms import StringField, SelectField, RadioField, SubmitField, IntergerField, SubmitField
+from wtforms import FieldList, FormField, PasswordField, IntegerField, StringField, SelectField, RadioField, SubmitField,FileField
+from wtforms.validators import DataRequired, NumberRange,Length,EqualTo
+from flask_wtf.file import FileField, FileRequired,FileAllowed
+
 
 
 
@@ -11,6 +12,9 @@ class AddAdmin(FlaskForm):
     First_Name = StringField('FirstName', validators=[DataRequired(), Length(min=1, max=19)])
     Last_Name = StringField('LastName', validators=[DataRequired(), Length(min=3, max=30)])
     password = PasswordField('Password', validators=[DataRequired()])
+    photo = FileField('Upload_photo', validators=[FileRequired(), FileAllowed(['jpg', 'png'], 'Images only!')])
+    submit = SubmitField('Register')
+    confirm_pass = PasswordField('Confirm-password', validators=[DataRequired(), EqualTo(password)])
     submit = SubmitField('Register')
 
 class LoginForm(FlaskForm):

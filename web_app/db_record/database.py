@@ -1,10 +1,8 @@
 from dotenv import load_dotenv
 import os
 from sqlalchemy import create_engine
-
 from sqlalchemy.orm import sessionmaker
-from cretedb import Admin, base
-
+from db_record.cretedb import base
 
 
 load_dotenv()
