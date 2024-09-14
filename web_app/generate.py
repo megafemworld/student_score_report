@@ -15,5 +15,5 @@ def userid_generate():
         
 
 
-def save_upload():
+# def save_upload():
     

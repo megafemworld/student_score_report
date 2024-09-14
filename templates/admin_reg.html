@@ -27,78 +27,43 @@
 
     <div class="container form-container">
         <div class="form-content">
-            <form>
-                <div class="mb-3">
-                    <label for="firstName" class="form-label">First Name</label>
-                    <input type="text" class="form-control" id="firstName" placeholder="Enter first name">
+            <form  method="POST" action="" enctype="multipart/form-data">
+                {{ best.hidden_tag() }}
+                <div class="form-group">
+                    {{ best.First_Name.label(class="form-label") }}
+                    {{ best.First_Name(class="form-control", id="firstName", placeholder="Enter first name") }}
                 </div>
-                <div class="mb-3">
-                    <label for="lastName" class="form-label">Last Name</label>
-                    <input type="text" class="form-control" id="lastName" placeholder="Enter last name">
+                <div class="form-group">
+                    {{ best.Last_Name.label(class="form-label") }}
+                    {{ best.Last_Name(class="form-control", id="lastName", placeholder="Enter last name") }}
                 </div>
-                <div class="mb-3">
-                    <label for="classSelect" class="form-label">Class</label>
-                    <select class="form-select" id="classSelect">
-                        <option value="JSS1">JSS1</option>
-                        <option value="JSS2">JSS2</option>
-                        <option value="JSS3">JSS3</option>
-                    </select>
+                <div class="form-group">
+                    {{best.password.label(class="form-label")}}
+                    {{best.password(class="form-control", placeholder="*************")}}
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Subjects</label>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Mathematics" id="subjectMath">
-                                <label class="form-check-label" for="subjectMath">Mathematics</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="English" id="subjectEnglish">
-                                <label class="form-check-label" for="subjectEnglish">English</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Biology" id="subjectBiology">
-                                <label class="form-check-label" for="subjectBiology">Biology</label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Chemistry" id="subjectChemistry">
-                                <label class="form-check-label" for="subjectChemistry">Chemistry</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Physics" id="subjectPhysics">
-                                <label class="form-check-label" for="subjectPhysics">Physics</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Geography" id="subjectGeography">
-                                <label class="form-check-label" for="subjectGeography">Geography</label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="History" id="subjectHistory">
-                                <label class="form-check-label" for="subjectHistory">History</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Economics" id="subjectEconomics">
-                                <label class="form-check-label" for="subjectEconomics">Economics</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Literature" id="subjectLiterature">
-                                <label class="form-check-label" for="subjectLiterature">Literature</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Computer Science" id="subjectCS">
-                                <label class="form-check-label" for="subjectCS">Computer Science</label>
-                            </div>
-                        </div>
-                    </div>
+                <div class="form-group">
+                    {{best.photo.label(for="photo",class="form-label")}}
+                    {{best.photo(type="file",class="form-control-file", id="photo")}}
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="form-group">
+                    {{best.confirm_pass.label(class="form-label")}}
+                    {{best.confirm_pass(class="form-control", placeholder="*************")}}
+                </div>
+                
+                {{best.submit(class="btn btn-primary")}}
             </form>
         </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="alert alert-success mt-3">
+                {% for category, message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
     </div>
+</div>
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
