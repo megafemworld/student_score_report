@@ -1,3 +1,4 @@
+from flask_login import UserMixin
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, Integer, ForeignKey, DateTime, func, BigInteger, Sequence
 from sqlalchemy.orm import relationship
@@ -9,19 +10,20 @@ base = declarative_base()
 
 
 
-class Admin(base):
+class Admin(UserMixin,base):
     __tablename__ = 'admin'
     user_id = Column(String(40), primary_key=True, nullable=False, unique=True)
     first_name = Column(String(60), nullable=False)
     last_name = Column(String(60), nullable=False)
     password = Column(String(100), nullable=False)
     photo = Column(String(500), nullable=True)
+    role = 'admin'
     
     def set_password(self, password):
         self.password = generate_password_hash(password)
         return self.password
 
-class Student(base):
+class Student(UserMixin, base):
     __tablename__ = 'student'
     reg_no = Column(String(400), nullable=False, unique=True, primary_key=True)
     first_name = Column(String(60), nullable=False)
@@ -30,14 +32,16 @@ class Student(base):
     class_id = Column(Integer, ForeignKey('class.id'))
     term_id = Column(Integer, ForeignKey('term.id'))
     year_id = Column(Integer, ForeignKey('year.id'))
+    role = 'student'
     
-class Teacher(base):
+class Teacher(UserMixin, base):
     __tablename__ = 'teacher'
     teach_id = Column(String(400), primary_key=True, unique=True, nullable=False)
     first_name = Column(String(60), nullable=False)
     last_name = Column(String(60), nullable=False)
     password = Column(String(100), nullable=False)
     photo = Column(String(500), nullable=True)
+    role = 'teacher'
 
 class Class(base):
     __tablename__ = 'class'
@@ -95,11 +99,3 @@ class Score(base):
 
 Student.scores = relationship("Score", order_by=Score.id, back_populates="student")
 Subject.scores = relationship("Score", order_by=Score.id, back_populates="subject")
-
-    
-
-
-
-    
-
-    
