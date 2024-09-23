@@ -2,10 +2,9 @@ from dotenv import load_dotenv
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from db_record.cretedb import base
+from .cretedb import base
 
 
-load_dotenv()
 
 
 

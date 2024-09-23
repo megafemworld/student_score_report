@@ -23,6 +23,20 @@
 	
 </head>
 <body class="jk">
+
+	{% with messages = get_flashed_messages(with_categories=true) %}
+	{% if messages %}
+		<div class="alert alert-dismissible fade show mt-3">
+			{% for category, message in messages %}
+				<div class="alert alert-{{ category }}" role="alert">
+					{{ message }}
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					</button>
+				</div>
+			{% endfor %}
+		</div>
+	{% endif %}
+{% endwith %}
 	
 	<div class=>
 		<div class="wet">
@@ -32,13 +46,15 @@
 					<img src="/temp/assest/WhatsApp Image 2024-08-24 at 17.19.45_5a46250b.png" alt="IMG">
 				</div>
 
-				<form class="login100-form validate-form">
+				<form class="login100-form validate-form" id="loginform" method="POST">
+					{{log.hidden_tag()}}
 					<span class="login100-form-title femi">
 					<h2 class="kd">ALXER-LOGIN</h2>	
 					</span>
 
-					<div class="wrap-input100 validate-input" data-validate = "Valid user-id is required: ">
-						<input class="input100 na" type="text" name="User-Id" placeholder="User-Id">
+					<div class="wrap-input100 validate-input mt" data-validate = "Valid user-id is required: ">
+						{{log.User_id.label()}}
+						{{log.User_id(class="input100 na", type="text" ,placeholder="User-Id" ,id="user_id")}}
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-user" aria-hidden="true"></i>
@@ -46,17 +62,19 @@
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate = "Password is required">
-						<input class="input100 na" type="password" name="pass" placeholder="Password">
+						{{log.password(class="input100 na", type="password", placeholder="Password")}}
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-lock" aria-hidden="true"></i>
 						</span>
+						{% for error in log.password.errors %}
+                            <div class="alert alert-danger">{{ error }}</div>
+                        {% endfor %}
 					</div>
 					
 					<div class="container-login100-form-btn">
-						<button class="login100-form-btn">
-							Login
-						</button>
+						{{log.Login(class="login100-form-btn")}}
+						
 					</div>
 
 					<div class="text-center p-t-12">
@@ -99,6 +117,7 @@
 	</script>
 <!--===============================================================================================-->
 	<script src="/temp/js/main.js"></script>
+	<script src="/record.js"></script>
 
 </body>
 </html>
