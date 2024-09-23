@@ -127,30 +127,6 @@ def login():
     return render_template('index.html', log=log)
 
 
-    # log = LoginForm()
-    # if log.validate_on_submit():
-    #     amen = log.User_id.data
-    #     jesu = log.password.data
-    #     user = None
-    #     if amen.startswith('AD-'):
-    #         user = session.query(Admin).filter_by(user_id=amen).first()
-    #     elif amen.startswith('TE-'):
-    #         user = session.query(Teacher).filter_by(teach_id=amen).first()
-    #     elif amen.startswith('STU-'):
-    #         user = session.query(Student).filter_by(reg_no=amen).first()
-
-    #     if user and user.check_password(jesu):
-    #         login_user(user)
-    #         if isinstance(user, Admin):
-    #             return redirect(url_for('admin_dashboard'))
-    #         elif isinstance(user, Teacher):
-    #             return redirect(url_for('teacher_dashboard'))
-    #         elif isinstance(user, Student):
-    #             return redirect(url_for('student_dashboard'))
-    #     else:
-    #         flash('Invalid username or p
-
-
   
 
 
