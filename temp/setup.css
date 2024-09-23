@@ -146,6 +146,18 @@ img{
     font-family: fantasy;
     text-shadow: 6px 6px 6px  rgba(0, 128, 0, 0.822);
 }
+.lobk{
+    
+    margin-top: 15px;
+    margin-right: 40px;
+    color:whitesmoke;
+    font-weight: bolder;
+    font-size: 30px;
+    font-style: italic;
+    font-family: fantasy;
+    text-shadow: 6px 6px 6px  rgba(6, 233, 6, 0.822);
+
+}
 .form-container {
     display: flex;
     justify-content: center;
@@ -160,3 +172,4 @@ img{
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+

@@ -8,9 +8,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="/temp/setup.css">
     <title>Teacher-reg</title>
-    <style>
-        
-    </style>
 </head>
 <body>
     <nav class="navbar bg-body-tertiary">
@@ -25,78 +22,67 @@
         </div>
     </nav>
 
-    <div class="container form-container">
-        <div class="form-content">
-            <form>
-                <div class="mb-3">
-                    <label for="firstName" class="form-label">First Name</label>
-                    <input type="text" class="form-control" id="firstName" placeholder="Enter first name">
-                </div>
-                <div class="mb-3">
-                    <label for="lastName" class="form-label">Last Name</label>
-                    <input type="text" class="form-control" id="lastName" placeholder="Enter last name">
-                </div>
-                <div class="mb-3">
-                    <label for="classSelect" class="form-label">Class</label>
-                    <select class="form-select" id="classSelect">
-                        <option value="JSS1">JSS1</option>
-                        <option value="JSS2">JSS2</option>
-                        <option value="JSS3">JSS3</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Subjects</label>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Mathematics" id="subjectMath">
-                                <label class="form-check-label" for="subjectMath">Mathematics</label>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="alert alert-dismissible fade show mt-3">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}" role="alert">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                </button>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="English" id="subjectEnglish">
-                                <label class="form-check-label" for="subjectEnglish">English</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Biology" id="subjectBiology">
-                                <label class="form-check-label" for="subjectBiology">Biology</label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Chemistry" id="subjectChemistry">
-                                <label class="form-check-label" for="subjectChemistry">Chemistry</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Physics" id="subjectPhysics">
-                                <label class="form-check-label" for="subjectPhysics">Physics</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Geography" id="subjectGeography">
-                                <label class="form-check-label" for="subjectGeography">Geography</label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="History" id="subjectHistory">
-                                <label class="form-check-label" for="subjectHistory">History</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Economics" id="subjectEconomics">
-                                <label class="form-check-label" for="subjectEconomics">Economics</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Literature" id="subjectLiterature">
-                                <label class="form-check-label" for="subjectLiterature">Literature</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="Computer Science" id="subjectCS">
-                                <label class="form-check-label" for="subjectCS">Computer Science</label>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+                {% endif %}
+            {% endwith %}
+
+            <div class="container form-container">
+                <div class="form-content">  
+                    <form method="POST" action="" enctype="multipart/form-data">
+                        {{ jago.hidden_tag() }}
+                        <div class="form-group mb-3">
+                            {{ jago.First_Name.label(class="form-label") }}
+                            {% if jago.First_Name.errors %}
+                                {{ jago.First_Name(class="form-control is-invalid", id="firstName", placeholder="Enter first name") }}
+                                {% for error in jago.First_Name.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                {{ jago.First_Name(class="form-control", id="firstName", placeholder="Enter first name") }}
+                            {% endif %}
+                        </div>
+                        
+                    <div class="form-group mb-3">
+                        {{ jago.Last_Name.label(class="form-label") }}
+                                        {% if jago.Last_Name.errors %}
+                                        {{ jago.Last_Name(class="form-control", id="lastName", placeholder="Enter last name") }}
+                                            {% for error in jago.Last_Name.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                            {% endfor %}
+                                        {% else %}
+                                        {{ jago.Last_Name(class="form-control", id="lastName", placeholder="Enter last name") }}
+                                        {% endif %}
+                                        
+                                    </div> 
+        
+                                  
+                                    <div class="form-group mb-3">
+                                        {{ jago.photo.label() }}
+                                        {% if jago.photo.errors%}
+                                        {{ jago.photo(type="file", class="form-control-file") }}
+                                            {% for error in jago.photo.errors%}
+                                                <span class="text-danger">{{ error }}</span>
+                                            {% endfor %}
+                                        {% else %}
+                                        {{ jago.photo(type="file", class="form-control-file") }}
+                                        {% endif %}
+                                    </div>
+                                    {{ jago.submit(class="btn btn-primary")}}
+                                </form>
         </div>
     </div>
 

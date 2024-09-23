@@ -1,124 +1,136 @@
+from flask import Flask,redirect, request, flash, render_template, url_for,Blueprint
 
-from flask import Flask, redirect, request, flash, render_template, url_for
 from app import app
-"""
-Renders the teacher page with assigned subjects categorized by class.
-Returns:
-    rendered template: The HTML template for the teacher page.
-"""
-from flask_login import LoginManager, UserMixin, login_required, current_user
-from functools import wraps
-from form import CourseForm, LoginForm, AddTeacher, AddStudent, Year, AddAdmin, AssignSubject, Subjects, StudentData, CourseForm
+from db_record.database import session
+from db_record.cretedb import Admin,Student,Teacher
+import logging
+# from models import Result, Score, TeachingAssignment
 
 
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = 'login'
 
 
-users = {
-    'admin_user': {'id': '1', 'username': 'adm_admin_user', 'password': 'password'},
-    'teacher_user': {'id': '2', 'username': 'te_teacher_user', 'password': 'password'},
-    'student_user': {'id': '3', 'username': 'st_student_user', 'password': 'password'}
-}
 
 
-assigned_subjects = [
-    {'id': '1', 'teacher_id': '1', 'subject_name': 'Mathematics', 'class_name': 'JSS1', 'term_name': '1', 'year_name': '2024/2025'},
-    {'id': '2', 'teacher_id': '1', 'subject_name': 'Mathematics', 'class_name': 'JSS2', 'term_name': '2', 'year_name': '2024/2025'},
-    {'id': '3', 'teacher_id': '1', 'subject_name': 'Mathematics', 'class_name': 'JSS3', 'term_name': '3', 'year_name': '2024/2025'},
-    {'id': '4', 'teacher_id': '1', 'subject_name': 'Physics', 'class_name': 'JSS2', 'term_name': '2', 'year_name': '2024/2025'}
-]
-
-# def get_user_role(username):
-#     if username.startswith('adm'):
-#         return 'admin'
-#     elif username.startswith('te'):
-#         return 'teacher'
-#     elif username.startswith('st'):
-#         return 'student'
-#     else:
-#         return 'unknown'
-
-# class UserLogin(UserMixin):
-#     def __init__(self, id, username, role):
-#         self.id = user.id
-#         self.username = user.username
-#         self.role = role
-
-# @login_manager.user_loader
-# def load_user(user_id):
-#     if user['id'] == user_id:
-#         return UserLogin(user[id], user['username'], get_user_role(user['username']))
-
-# def role_required(required_role):
-#     def decorator(f):
-#         @wraps(f)
-#         def decorated_function(*args, **kwargs):
-#             if not current_user.is_authenticated:
-#                 flash('Login to access')
-#             if current_user.role != role_required:
-#                 flash('You do not have permission to access this page.', 'danger')
-#                 return redirect(url_for('login'))
-#             return f(*args, **kwargs)
-#         return decorated_function
-#     return decorator
 
 
-# def check_assign(class_name, subject, year, term):
-#     for assigned_subject in assigned_subjects:
-#         if assigned_subject['class_name'] == class_name and assigned_subject['subject_name'] == subject and assigned_subject['year_name'] == year and assigned_subject['term_name'] == term and assigned_subject['teacher_id'] == current_user.id:
-#             pass
-#         else:
-#             flash('Subject not assigned to you.', 'danger')
 
-# @app.route('/add/who', methods=['GET', 'POST'])
-# @login_required
-# @role_required('admin')
-# def signup_who(who):
+
+
+# def check_assign(class_name, subject_name, year_name, term_name, teacher_id):
+#     assignment =session.query(TeachingAssignment) \
+#         .join(Subject, TeachingAssignment.subject_id == Subject.id) \
+#         .join(Class, TeachingAssignment.class_id == Class.id) \
+#         .join(Term, TeachingAssignment.term_id == Term.id) \
+#         .join(Year, TeachingAssignment.year_id == Year.id) \
+#         .filter(TeachingAssignment.teacher_id == teacher_id) \
+#         .filter(Subject.name == subject_name) \
+#         .filter(Class.cls_name == class_name) \
+#         .filter(Term.name == term_name) \
+#         .filter(Year.year == year_name) \
+#         .options(
+#             joinedload(TeachingAssignment.subject),
+#             joinedload(TeachingAssignment.class_),
+#             joinedload(TeachingAssignment.term),
+#             joinedload(TeachingAssignment.year)
+#         ) \
+#         .first()
+
+#     return assignment
+
+# def students_load(class_name, year_name, term_name):
+#     students = db.session.query(Student.first_name, Student.last_name, Student.reg_no) \
+#         .join(Class, Student.class_id == Class.id) \
+#         .join(Year, Student.year_id == Year.id) \
+#         .join(Term, Student.term_id == Term.id) \
+#         .filter(Class.cls_name == class_name) \
+#         .filter(Year.year == year_name) \
+#         .filter(Term.name == term_name) \
+#         .all()
+
+#     return students
+
     
-#     # if user_id is not found in admin table, redirect
-#     if who == 'admin':
-#         if request.method == 'POST':
-#             #for
-#             return render_template('admin_signup.html')
-#     elif who == 'year':
-#         if request.method == 'POST':
-#             #form data
-#             return render_template(year_signup.html)
-#     elif who == 'student':
-#         if request.method == 'POST':
-#             #form data
-#             return render_template('student_signup.html')
-#     elif who == 'teacher':
-#         if request.method == 'POST':
-#             #form data
-#             return render_template('teacher_signup.html')
 
-# @app.route('/login', methods=['GET', 'POST'])
-# def login():
-#     form = form.LoginForm()
-#     if request.method == 'POST' and form.validate_on_form():
-#         user = form.user
-#         if user.lower().startswith("st"):
-#             if user and user['password'] == password:
-#                 user_obj = UserLogin(user['id'], user['username'], get_user_role(user['username']))
-#         elif user.lower().startswith("te"):
-#             if user and user['password'] == password:
-#                 user_obj = UserLogin(user['id'], user['username'], get_user_role(user['username']))
-#             pass
-#         elif user.lower().startswith("adm"):
-#             if user and user['password'] == password:
-#                 user_obj = UserLogin(user['id'], user['username'], get_user_role(user['username']))
-#         else:
-#             pass
-#     return render_template('login.html', form=form)
 
-# @app.route('/teacher')
+
+# # users = {
+# #     'admin_user': {'id': '1', 'username': 'adm_admin_user', 'password': 'password'},
+# #     'teacher_user': {'id': '2', 'username': 'te_teacher_user', 'password': 'password'},
+# #     'student_user': {'id': '3', 'username': 'st_student_user', 'password': 'password'}
+# # }
+
+
+# # assigned_subjects = [
+# #     {'id': '1', 'teacher_id': '1', 'subject_name': 'Mathematics', 'class_name': 'JSS1', 'term_name': '1', 'year_name': '2024/2025'},
+# #     {'id': '2', 'teacher_id': '1', 'subject_name': 'Mathematics', 'class_name': 'JSS2', 'term_name': '2', 'year_name': '2024/2025'},
+# #     {'id': '3', 'teacher_id': '1', 'subject_name': 'Mathematics', 'class_name': 'JSS3', 'term_name': '3', 'year_name': '2024/2025'},
+# #     {'id': '4', 'teacher_id': '1', 'subject_name': 'Physics', 'class_name': 'JSS2', 'term_name': '2', 'year_name': '2024/2025'}
+# # ]
+
+
+# '''
+# @app.route('admin_reg', methods=['GET', 'POST'])
 # @login_required
-# @role_required('teacher')
+# def admin_reg():
+#     """sign up for admin, teacher, student or year"""
+#     if current_user.role != 'admin':
+#         flash('You are not authorized to view this page', 'danger')
+#         return redirect(url_for('login'))
+#     form = AddAdmin()
+#     if form.validate_on_submit():
+#         pass
+
+# @app.route('student_reg', methods=['GET', 'POST'])
+# @login_required
+# def admin_reg():
+#     """sign up for admin, teacher, student or year"""
+#     if current_user.role != 'admin':
+#         flash('You are not authorized to view this page', 'danger')
+#         return redirect(url_for('login'))
+#     form = AddAdmin()
+#     if form.validate_on_submit():
+#         pass
+
+# @app.route('student_reg', methods=['GET', 'POST'])
+# @login_required
+# def admin_reg():
+#     """sign up for admin, teacher, student or year"""
+#     if current_user.role != 'admin':
+#         flash('You are not authorized to view this page', 'danger')
+#         return redirect(url_for('login'))
+#     form = AddAdmin()
+#     if form.validate_on_submit():
+#         pass
+
+# '''
+
+# @app.route('/teacher', methods=['GET', 'POST'])
+# @login_required
 # def teacher():
+#     if current_user.role != 'teacher':
+#         flash('You are not authorized to view this page', 'danger')
+#         return redirect(url_for('login'))
 #     class_subjects = {}
+#     teacher_id = current_user.get_id()
+#     selected_year = request.form.get('year')
+#     selected_term = request.form.get('term')
+    
+#     years = db.session.query(year).all()
+#     terms = db.session.query(term).all()
+    
+#     year_id = selected_year
+#     term_id = selected_term
+    
+#     if teacher_id:
+#         assigned_subjects = db.session.query(TeachingAssignment)\
+#             .filter(TeachingAssignment.teacher_id == teacher_id)\
+#             .filter(TeachingAssignment.year_id == year_id)\
+#             .filter(TeachingAssignment.term_id == term_id)\
+#             .options(joinedload(TeachingAssignment.subject))\
+#             .all()
+#     else:
+#         assigned_subjects = []
+    
 #     for subject in assigned_subjects:
 #         class_name = subject['class_name']
 #         subject_name = subject['subject_name']
@@ -126,44 +138,86 @@ assigned_subjects = [
 #             class_subjects[class_name].append(subject_name)
 #         else:
 #             class_subjects[class_name] = [subject_name]
-    
-#     return render_template('teacher.html', class_subjects=class_subjects)
+
+
+#     class_subjects = {
+#     'JSS1': ['Mathematics'],
+#     'JSS2': ['Mathematics', 'Physics'],
+#     'JSS3': ['Mathematics']
+#     }
+
+#     return render_template('teacher.html', class_subjects=class_subjects, years=years, terms=terms, year_id=year_id, term_id=term_id)
 
 # @app.route('/teacher/result_upload/<class_name>/<subject>/<year:int>/<term:int>', methods=['GET', 'POST'])
 # @login_required
-# @role_required('teacher')
-# def teacher_upload():
+# def result_upload():
+#     if current_user.role != teacher:
+#         flash('You are not authorized to view this page', 'danger')
+#         return redirect(url_for('login'))
+        
 #     class_name = request.view_args['class_name']
 #     subject = request.view_args['subject']
 #     year = int(request.view_args['year'])
 #     term = int(request.view_args['term'])
-#     if request.method == 'POST' or request.method == 'GET':
-#         check_assign(class_name, subject, year, term)
-#         #form data
-#         students = [
-#     {'id': '1', 'username': 'st_student_user', 'first_name': 'Faith', 'last_name': 'Chike', 'password': 'password', 'class_name': 'JSS1', 'year_name': '2024/2025'},
-#     {'id': '2', 'username': 'st_student_user', 'first_name': 'Hajarat', 'last_name': 'Bello', 'password': 'password', 'class_name': 'JSS2', 'year_name': '2024/2025'},
-#     {'id': '3', 'username': 'st_student_user', 'first_name': 'Dayo', 'last_name': 'Bola', 'password': 'password', 'class_name': 'JSS3', 'year_name': '2024/2025'}
-#     {'id': '4', 'username': 'st_student_user', 'first_name': 'Ibrahim', 'last_name': 'Buhari', 'password': 'password', 'class_name': 'JSS1', 'year_name': '2024/2025'}
-# ]
+#     teacher_id = current_user.get_id()
+#     assigner = check_assign(class_name, subject, year, term, teacher_id)
+#     if not assigner:
+#         flash('You are not authorized to view this page', 'danger')
+#         return redirect(url_for('login'))
+    
+#     students = students_load(class_name, year, term)
     
 #     form = CourseForm()
-        
-#     if request.method == 'GET':
-#         for student in students:
-#             student_form = StudentData(
-#             student_id = student['id'],
-#             student_name = student['first_name'] + ' ' + student['last_name']
-#             )
-#             form.students.append_entry(student_form)
+#     for student in students:
+#         student_form = StudentData(
+#             student_id=student.reg_no,
+#             student_name=f"{student.first_name} {student.last_name}"
+#         )
+#         form.students.append_entry(student_form)
 
 #     if form.validate_on_submit():
 #         for student_form in form.students:
-#             student_id = student_form['student_id']
-#             ca = student_form['ca']
-#             exam = student_form['exam']
-#             total = ca + exam
-#             # save to database
-#             flash('Result uploaded successfully', 'success')
-#             return redirect(url_for('teacher'))
-#         return render_template('result_upload.html', form=form)
+#             student_id = student_form.student_id.data
+#             exam_score = student_form.exam_score.data
+#             test_score = student_form.test_score.data
+#             grade = student_form.grade.data
+#             score = Score(
+#                 student_id=student_id,
+#                 subject_id=assigner.subject_id,
+#                 exam_score=exam_score,
+#                 test_score=test_score,
+#                 grade=grade
+#             )
+#             db.session.add(score)
+#         db.session.commit()
+#         flash('Results uploaded successfully', 'success')
+#         return redirect(url_for('teacher'))
+#     return render_template('result_upload.html', form=form, students=students)
+
+# @app.route('/student', methods=['GET', 'POST'])
+# @login_required
+# def result():
+#     if current_user.role != student:
+#         flash('You are not authorized to view this page', 'danger')
+#         return redirect(url_for('login'))
+#     student_id = current_user.get_id()
+#     student_detail = db.session.query(Student).filter_by(reg_no=student_id).first()
+#     if not student:
+#         flash('Student not found', 'danger')
+#         return redirect(url_for('login'))
+#     student_name = student_detail.first_name + ' ' + student_detail.last_name
+#     student_reg = student_detail.reg_no
+#     student_class = student_detail.class_id
+#     student_term = student_detail.term_id
+#     student_year = student_detail.year_id
+
+#     scores = db.session.query(Score).join(Student).join(Subject).filter(
+#         Score.student_id == student_id,
+#         Student.class_id == student_class,
+#         Student.term_id == student_term,
+#         Student.year_id == student_year
+#     ).all()
+
+#     return render_template('result.html' , scores=scores, student_name=student_name, student_id=student_id, student_class=student_class,student_term=student_term)
+
+    

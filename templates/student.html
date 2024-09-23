@@ -25,34 +25,78 @@
         </div>
     </nav>
 
-    <div class="container form-container mb-4">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="alert alert-dismissible fade show mt-3">
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    </button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+    
+    <div class="container form-container">
+       
         <div class="form-content">
-            <form>
+            <form method="POST" action="" enctype="multipart/form-data">
+                {{ cat.hidden_tag() }}
                 <div class="mb-3">
-                    <label for="firstName" class="form-label">First Name</label>
-                    <input type="text" class="form-control" id="firstName" placeholder="Enter first name">
+                    {{ cat.First_Name.label(class="form-label") }}
+                    {{ cat.First_Name(class="form-control", placeholder="Enter first name") }}
+                    {% for error in cat.First_Name.errors %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endfor %}
+                    
                 </div>
                 <div class="mb-3">
-                    <label for="lastName" class="form-label">Last Name</label>
-                    <input type="text" class="form-control" id="lastName" placeholder="Enter last name">
+                    {{ cat.Last_Name.label(class="form-label") }}
+                    {{ cat.Last_Name(class="form-control", placeholder="Enter first name") }}
                 </div>
                 <div class="mb-3">
-                    <label for="classSelect" class="form-label">Class</label>
-                    <select class="form-select" id="classSelect">
-                        <option value="JSS1">JSS1</option>
-                        <option value="JSS2">JSS2</option>
-                        <option value="JSS3">JSS3</option>
-                    </select>
+                    <div class="form-group">
+                        {{ cat.class_id.label(class="form-label") }}
+                        {{ cat.class_id(class="form-control") }}  
+                        {% for error in cat.class_id.errors %}
+                            <div class="alert alert-danger">{{ error }}</div>
+                        {% endfor %}
+                    </div>
                 </div>
                 <div class="mb-3">
-                    <label for="classSelect" class="form-label">TERM</label>
-                    <select class="form-select" id="classSelect">
-                        <option value="1st">First-Term</option>
-                        <option value="2nd">Second-Term</option>
-                        <option value="3rd">Third-Term</option>
-                    </select>
+                    <div class="form-group">
+                        {{ cat.year_id.label(class="form-label") }}
+                        {{ cat.year_id(class="form-control") }}  
+                        {% for error in cat.class_id.errors %}
+                            <div class="alert alert-danger">{{ error }}</div>
+                        {% endfor %}
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="mb-3">
+                <div class="form-group">
+                    {{ cat.term_id.label(class="form-label") }}
+                    {{ cat.term_id(class="form-control") }}  
+                    {% for error in cat.term_id.errors %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                </div>
+                <div class="mb-3">
+                <div class="form-group ">
+                    {{ cat.photo.label() }}
+                    {% if cat.photo.errors%}
+                    {{ cat.photo(type="file", class="form-control-file") }}
+                        {% for error in cat.photo.errors%}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    {% else %}
+                    {{ cat.photo(type="file", class="form-control-file") }}
+                    {% endif %}
+                </div>
+            </div>
+                {{cat.submit(class='btn btn-success')}}
             </form>
         </div>
     </div>

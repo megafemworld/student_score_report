@@ -1,45 +1,60 @@
 from flask_wtf import FlaskForm
-from wtforms import FieldList, FormField, PasswordField, IntegerField, StringField, SelectField, RadioField, SubmitField,FileField
-from wtforms.validators import DataRequired, NumberRange,Length,EqualTo
+from wtforms import FieldList, FormField, PasswordField, IntegerField, StringField, SelectField, RadioField, SubmitField,FileField, HiddenField
+from wtforms.validators import DataRequired, NumberRange,Length,EqualTo, ValidationError
 from flask_wtf.file import FileField, FileRequired,FileAllowed
 
 
 
+        
 
 
 class AddAdmin(FlaskForm):
-    user_id = StringField('User_ID', validators=[DataRequired(), Length(min=7, max=7)])
     First_Name = StringField('FirstName', validators=[DataRequired(), Length(min=1, max=19)])
     Last_Name = StringField('LastName', validators=[DataRequired(), Length(min=3, max=30)])
-    password = PasswordField('Password', validators=[DataRequired()])
-    photo = FileField('Upload_photo', validators=[FileRequired(), FileAllowed(['jpg', 'png'], 'Images only!')])
+    photo = FileField('Upload_photo', validators=[ FileRequired(), FileAllowed(['jpg', 'png'], 'Images only!')])
     submit = SubmitField('Register')
-    confirm_pass = PasswordField('Confirm-password', validators=[DataRequired(), EqualTo(password)])
-    submit = SubmitField('Register')
+    
+    def capital(self,First_Name):
+        if not First_Name.data[0].isupper():  
+            raise ValidationError(f'The {First_Name} must start with a capital letter.')
+
+        
+        
+class AddTeacher(FlaskForm):
+    First_Name = StringField('First Name', validators=[DataRequired(), Length(min=3, max=25)])
+    Last_Name = StringField('Last Name', validators=[DataRequired(),Length(min=3, max=25)])
+    photo = FileField('Upload_photo', validators=[FileAllowed(['jpg', 'png'], 'Images only!'),FileRequired()])
+    submit = SubmitField('Register')  
+    
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Login In')
+    User_id = StringField('', validators=[DataRequired(),Length(min=3, max=25)])
+    password = PasswordField('Password', validators=[DataRequired(),Length(min=3, max=25)])
+    Login = SubmitField('Login In')
 
-class AddTeacher(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    First_Name = StringField('First Name', validators=[DataRequired()])
-    Last_Name = StringField('Last Name', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Register')
+
 
 class AddStudent(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    First_Name = StringField('First Name', validators=[DataRequired()])
-    Last_Name = StringField('Last Name', validators=[DataRequired()])
-    class_name = RadioField('Class')
-    password = PasswordField('Password', validators=[DataRequired()])
+    First_Name = StringField('First Name', validators=[DataRequired(),  Length(min=3, max=25)])
+    Last_Name = StringField('Last Name', validators=[DataRequired(),  Length(min=3, max=25)])
+    class_id = SelectField('Class', coerce=int)
+    year_id = SelectField('Year', coerce=int)
+    term_id = SelectField('Term', coerce=int)
+    photo = FileField('Upload_photo', validators=[FileAllowed(['jpg', 'png'], 'Images only!'),FileRequired()])
     submit = SubmitField('Register')
 
-class Year(FlaskForm):
-    Name = StringField('Year', validators=[DataRequired()])
-    submit = SubmitField('Register')
+# class Year(FlaskForm):
+#     Name = StringField('Year', validators=[DataRequired()])
+#     submit = SubmitField('Register')
+
+
+# class studentclass(FlaskForm):
+#     Name = StringField('Classes', validators=[DataRequired()])
+#     submit = SubmitField('Register')
+
+# class Term(FlaskForm):
+#     Name = StringField('Term', validators=[DataRequired()])
+#     submit = SubmitField('Register')
 
 
 
