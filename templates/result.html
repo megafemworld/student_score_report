@@ -57,10 +57,10 @@
                 <img src="student-image.jpg" alt="Student Image">
             </div>
             <div class="col-md-9">
-                <p><strong>Name:</strong> John Doe</p>
-                <p><strong>Student ID:</strong> 123456</p>
-                <p><strong>Class:</strong> 10th Grade</p>
-                <p><strong>Term:</strong> Spring 2024</p>
+                <p><strong>Name:</strong>{{ student_name }}</p>
+                <p><strong>Student ID:</strong> {{ student_id }}</p>
+                <p><strong>Class:</strong>{{ student_class }}</p>
+                <p><strong>Term:</strong>{{ student_term }}</p>
             </div>
         </div>
     </div>
@@ -74,58 +74,20 @@
                     <th>CA (30%)</th>
                     <th>Exam (70%)</th>
                     <th>Total (100%)</th>
-                    <th>Grade</th>
-                    <th>Remarks</th>
                 </tr>
             </thead>
             <tbody>
+                {% for score in scores %}
                 <tr>
-                    <td>Mathematics</td>
-                    <td>27</td>
-                    <td>63</td>
-                    <td>90</td>
-                    <td>A</td>
-                    <td>Excellent</td>
+
+                    <td>{{ score.subject.name }}</td>
+                    <td>{{ score.ca }}</td>
+                    <td>{{ score.exam }}</td>
+                    <td>{{score.grade }}</td>
                 </tr>
-                <tr>
-                    <td>English</td>
-                    <td>24</td>
-                    <td>57</td>
-                    <td>81</td>
-                    <td>B+</td>
-                    <td>Good</td>
-                </tr>
-                <tr>
-                    <td>Science</td>
-                    <td>26</td>
-                    <td>60</td>
-                    <td>86</td>
-                    <td>A-</td>
-                    <td>Very Good</td>
-                </tr>
-                <tr>
-                    <td>History</td>
-                    <td>22</td>
-                    <td>54</td>
-                    <td>76</td>
-                    <td>B</td>
-                    <td>Good</td>
-                </tr>
-                <tr>
-                    <td>Physical Education</td>
-                    <td>30</td>
-                    <td>70</td>
-                    <td>100</td>
-                    <td>A+</td>
-                    <td>Outstanding</td>
-                </tr>
+                {% endfor%}
             </tbody>
         </table>
-    </div>
-
-    <div class="remarks mt-4">
-        <h5>Teacher's Remarks</h5>
-        <p>John has shown remarkable progress this term. His performance in Mathematics and Science is commendable. Keep up the good work!</p>
     </div>
 </div>
 

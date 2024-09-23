@@ -1,69 +1,84 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <title>Teacher Dashboard</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
         @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');
-@media(min-width:768px) {
-    body {
-        margin-top: 50px;
-    }
-    /*html, body, #wrapper, #page-wrapper {height: 100%; overflow: hidden;}*/
-}
+        @media(min-width:768px) {
+            body {
+                margin-top: 50px;
+            }
+        }
 
+        /* Top Navigation */
+        .top-nav {
+            padding: 0 15px;
+        }
 
-/* Top Navigation */
+        .top-nav>li {
+            display: inline-block;
+            float: left;
+        }
 
-.top-nav {
-    padding: 0 15px;
-}
+        .top-nav>li>a {
+            padding-top: 20px;
+            padding-bottom: 20px;
+            line-height: 20px;
+            color: #fff;
+        }
 
-.top-nav>li {
-    display: inline-block;
-    float: left;
-}
+        .top-nav>li>a:hover,
+        .top-nav>li>a:focus,
+        .top-nav>.open>a,
+        .top-nav>.open>a:hover,
+        .top-nav>.open>a:focus {
+            color: #fff;
+            background-color: #1a242f;
+        }
 
-.top-nav>li>a {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    line-height: 20px;
-    color: #fff;
-}
+        .top-nav>.open>.dropdown-menu {
+            float: left;
+            position: absolute;
+            margin-top: 0;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            background-color: #fff;
+            -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+            box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        }
 
-.top-nav>li>a:hover,
-.top-nav>li>a:focus,
-.top-nav>.open>a,
-.top-nav>.open>a:hover,
-.top-nav>.open>a:focus {
-    color: #fff;
-    background-color: #1a242f;
-}
+        .top-nav>.open>.dropdown-menu>li>a {
+            white-space: normal;
+        }
 
-.top-nav>.open>.dropdown-menu {
-    float: left;
-    position: absolute;
-    margin-top: 0;
-    /*border: 1px solid rgba(0,0,0,.15);*/
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    background-color: #fff;
-    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
-    box-shadow: 0 6px 12px rgba(0,0,0,.175);
-}
+        .container-fluid, .assigned {
+            text-align: center;
+        }
 
-.top-nav>.open>.dropdown-menu>li>a {
-    white-space: normal;
-}
-.container-fluid, .assigned {
-    text-align: center;
-}
+        .dropdown-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .dropdown {
+            display: inline-block;
+            margin: 0 10px;
+        }
+        /* Set a fixed width for the dropdowns */
+        .dropdown-form {
+            max-width: 300px;
+            margin: 0 auto; /* Center align */
+        }
+        .dropdown-form select {
+            width: 100%; /* Make the dropdown take full width */
+        }
     </style>
-   
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div id="throbber" style="display:none; min-height:120px;"></div>
@@ -71,7 +86,6 @@
 <div id="wrapper">
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <!-- Brand and toggle get grouped for better mobile display -->
         <div class="logo-header">
             <button type="button" class="logo" data-toggle="collapse" data-target=".navbar-ex1-collapse">
             <a href="">
@@ -93,69 +107,72 @@
                 </ul>
             </li>
         </ul>
-
     </nav>
 
     <div id="page-wrapper">
         <div class="container-fluid">
-            <!-- Page Heading -->
-            <div class="row" id="main" >
+            <div class="row" id="main">
                 <div class="col-sm-12 col-md-12 well" id="content">
                     <h1>Welcome First Name!</h1>
-                </div>
-            </div>
-            <!-- /.row -->
-        </div>
-        <!-- /.container-fluid -->
-    </div>
-    <!-- /#page-wrapper -->
-</div><!-- /#wrapper -->
-<h2 class="assigned">ASSIGNED SUBJECTS</h2>
-<div class="container mt-4">
-    <div class="row">
-        <!-- Column 1 -->
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    JSS 1
-                </div>
-                <div class="card-body">
-                    <button class="btn btn-primary btn-block mb-2">Mathematics</button>
-                    <button class="btn btn-primary btn-block">English</button>
-                </div>
-            </div>
-        </div>
-        <!-- Column 2 -->
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    JSS 2
-                </div>
-                <div class="card-body">
-                    <button class="btn btn-primary btn-block mb-2">Civic Education</button>
-                    <button class="btn btn-primary btn-block">Agric</button>
-                </div>
-            </div>
-        </div>
-        <!-- Column 3 -->
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    JSS 3
-                </div>
-                <div class="card-body">
-                    <button class="btn btn-primary btn-block mb-2">Science Technology</button>
-                    <button class="btn btn-primary btn-block mb-2">Math</button>
-                    <button class="btn btn-primary btn-block">Geography</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+            <!-- Dropdown form for Year and Term -->
+            <div class="dropdown-form">
+                <form id="filter-form" method="POST">
+                    <div class="form-group">
+                        <label for="year">Select Year:</label>
+                        <select id="year" name="year" class="form-control">
+                            <option value="">-- Select Year --</option>
+                            {% for year in years %}
+                                <option value="{{ year.id }}" {% if year.id == selected_year %}selected{% endif %}>{{ year.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="term">Select Term:</label>
+                        <select id="term" name="term" class="form-control">
+                            <option value="">-- Select Term --</option>
+                            {% for term in terms %}
+                                <option value="{{ term.id }}" {% if term.id == selected_term %}selected{% endif %}>{{ term.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </form>
+            </div>
 
-<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+<h2 class="assigned">ASSIGNED SUBJECTS</h2>
+<div class="container mt-4">
+    <div class="row">
+        <!-- Columns  -->
+        {% for class_name, subjects in class_subjects.items() %}
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    {{ class_name }}
+                </div>
+                <div class="card-body">
+                    {% for subject in subjects %}
+                    <a href="/teacher/result_upload/{{ class_name }}/{{ subject }}/{{ selected_year }}/{{ selected_term }}" class="btn btn-primary btn-block mb-2">{{ subject }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#year, #term').change(function() {
+            $('#filter-form').submit();
+        });
+    });
+</script>
+
 </body>
 </html>
-
