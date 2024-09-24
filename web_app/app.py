@@ -1,4 +1,4 @@
-from flask import Flask,render_template, request, redirect, url_for,flash, current_app, Blueprint
+from flask import Flask,render_template, request, redirect, url_for,flash, current_app, Blueprint,send_from_directory
 from generate import userid_generate, pass_generate, teachid_generate,regno_generate,redirect_to_dashboard
 from db_record.cretedb import Admin, Teacher, Student,Year,Class,Term
 from werkzeug.security import check_password_hash
@@ -76,6 +76,11 @@ def save_pic(picdata):
     else:
         logging.error('No valid picture data received')
         raise ValueError('not a valid picture')
+    
+    
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(os.path.join(current_app.root_path, 'temp', 'assest', 'assest_database'), filename)
    
 
 @app.route('/', methods=['GET', 'POST'])
@@ -102,6 +107,7 @@ def login():
         # Admin login logic (as an example, assuming admin starts with 'AD-')
         elif amen.startswith('AD-'):
             user = session.query(Admin).filter_by(user_id=amen).first()
+            print(f'{user}')
             if user and user.check_password(jesu):
                 login_user(user)
                 return redirect(url_for('admin'))  
@@ -133,7 +139,7 @@ def login():
 
 
     
-@app.route('/admin_reg.html', methods=['POST','GET'])
+@app.route('/admin.html/admin_reg.html', methods=['POST','GET'])
 def admin_reg():
     best = AddAdmin()
     if best.validate_on_submit():
@@ -151,7 +157,7 @@ def admin_reg():
             admin.set_password(password)
             session.add(admin)
             session.commit()
-            flash(f'Account created for {best.Last_Name.data}!', 'success')
+            flash(f'Account created for {best.Last_Name.data}-', 'success')
             return redirect(url_for('admin_reg'))
         except Exception as e:
             logging.error(f"error creating account: {str(e)}")
@@ -163,10 +169,14 @@ def admin_reg():
     return render_template('admin_reg.html', best=best)
 
 @app.route('/admin.html')
+@login_required
 def admin():
-   return render_template('admin.html')
+    imagefile = None
+    if current_user.is_authenticated:
+        imagefile = url_for('uploaded_file', filename=current_user.photo)
+    return render_template('admin.html', imagefile=imagefile)
 
-@app.route('/teacher_reg.html', methods=['POST','GET'])
+@app.route('/admin.html/teacher_reg.html', methods=['POST','GET'])
 def teach_reg():
     jago = AddTeacher()
     if jago.validate_on_submit():
@@ -183,7 +193,7 @@ def teach_reg():
             teach.set_password(password)
             session.add(teach)
             session.commit()
-            flash(f"Account created for {jago.First_Name.data} {jago.Last_Name.data} was sucessful", 'success')
+            flash(f"Account created for {jago.First_Name.data} {jago.Last_Name.data} was sucessful. userid ={teach_id} password = {password}", 'success')
             return redirect(url_for('teach_reg'))
         except Exception as e:
              logging.error(f"error creating account: {str(e)}")
@@ -195,7 +205,7 @@ def teach_reg():
     return render_template('teacher_reg.html', title='AddTeacher', jago=jago)
 
 
-@app.route('/student.html', methods=['GET','POST'])
+@app.route('/admin.html/student.html', methods=['GET','POST'])
 def student():
     cat = AddStudent()
     cat.class_id.choices = selectid(Class) 
@@ -218,7 +228,7 @@ def student():
             student.set_password(password)
             session.add(student)
             session.commit()
-            flash(f"Student: {cat.First_Name.data} {cat.Last_Name.data} Registration was sucessful", 'success')
+            flash(f"Student: {cat.First_Name.data} {cat.Last_Name.data} Registration was sucessful. userid ={reg_no} password = {password}", 'success')
             return redirect(url_for('student'))
     else:
         logging.error(f"Form validation errors: {cat.errors}")
@@ -228,7 +238,7 @@ def student():
 @app.route('/logout')
 def logout(): 
     logout_user()
-    return render_template('index.html')
+    return redirect(url_for('login'))
 
 @app.route('/teacher.html')
 def teacher():
@@ -242,6 +252,11 @@ def result():
 @app.route('/result_upload.html')
 def result_upload():
     return render_template('result_upload.html')
+
+
+@app.route('/subject.html')
+def subject():
+    return render_template('subject.html')
 
 
 

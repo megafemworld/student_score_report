@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import UserMixin
 
-base = declarative_base()
+Base = declarative_base()
 
 
 
@@ -12,7 +12,7 @@ base = declarative_base()
 
 
 
-class Admin(base,UserMixin):
+class Admin(Base,UserMixin):
     __tablename__ = 'admin'
     user_id = Column(String(40), primary_key=True, nullable=False, unique=True)
     first_name = Column(String(60), nullable=False)
@@ -30,7 +30,7 @@ class Admin(base,UserMixin):
     def get_id(self):
         return self.user_id
 
-class Student(base,UserMixin):
+class Student(Base,UserMixin):
     __tablename__ = 'student'
     reg_no = Column(String(400), nullable=False, unique=True, primary_key=True)
     first_name = Column(String(60), nullable=False)
@@ -53,7 +53,7 @@ class Student(base,UserMixin):
         return self.reg_no
         
     
-class Teacher(base,UserMixin):
+class Teacher(Base,UserMixin):
     __tablename__ = 'teacher'
     teach_id = Column(String(400), primary_key=True, unique=True, nullable=False)
     first_name = Column(String(60), nullable=False)
@@ -72,7 +72,7 @@ class Teacher(base,UserMixin):
     def get_id(self):
         return self.teach_id
 
-class Class(base):
+class Class(Base):
     __tablename__ = 'class'
     id = Column(Integer, primary_key=True, autoincrement=True)
     cls_name = Column(String(100), nullable=False, unique=True)
@@ -81,7 +81,7 @@ class Class(base):
     #     super(Class, self).__init__(*args, **kwargs)
     #     self.class_id.choices = [(cls.id, cls.cls_name) for cls in Class.query.all()]
     
-class Term(base):
+class Term(Base):
     __tablename__ = 'term'
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(100), nullable=False, unique=True)
@@ -91,7 +91,7 @@ class Term(base):
         self.term_id.choices = [(cls.id, cls.name) for cls in Term.query.all()]
     
 
-class Year(base):
+class Year(Base):
     __tablename__ = 'year'
     id = Column(Integer, primary_key=True, autoincrement=True)
     year = Column(BigInteger, nullable=False, unique=True)
@@ -101,12 +101,12 @@ class Year(base):
     #     self.year_id.choices = [(cls.id, cls.year) for cls in Year.query.all()]
     
     
-class Subject(base):
+class Subject(Base):
     __tablename__ = 'subject'
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(100), nullable=False, unique=True)
     
-class Enrollment(base):
+class Enrollment(Base):
     __tablename__ = 'enrollment'
     id = Column(Integer, primary_key=True, autoincrement=True)
     student_id = Column(String(400), ForeignKey('student.reg_no'))
@@ -116,25 +116,31 @@ class Enrollment(base):
 Student.subjects = relationship("Enrollment", order_by=Enrollment.id, back_populates="student")
 Subject.students = relationship("Enrollment", order_by=Enrollment.id, back_populates="subject")
 
-class TeachingAssignment(base):
+class TeachingAssignment(Base):
     __tablename__ = 'teaching_assignment'
     id = Column(Integer, primary_key=True, autoincrement=True)
     teacher_id = Column(String(400), ForeignKey('teacher.teach_id'))
     subject_id = Column(Integer, ForeignKey('subject.id'))
+    year_id = Column(Integer, ForeignKey('year.id'))
+    term_id = Column(Integer, ForeignKey('term.id'))
+    class_id = Column(Integer, ForeignKey('class.id'))
     teacher = relationship("Teacher", back_populates="subjects")
     subject = relationship("Subject", back_populates="teachers")
 
 Teacher.subjects = relationship("TeachingAssignment", order_by=TeachingAssignment.id, back_populates="teacher")
 Subject.teachers = relationship("TeachingAssignment", order_by=TeachingAssignment.id, back_populates="subject")
 
-class Score(base):
+class Score(Base):
     __tablename__ = 'score'
     id = Column(Integer, primary_key=True, autoincrement=True)
     student_id = Column(String(400), ForeignKey('student.reg_no'))
     subject_id = Column(Integer, ForeignKey('subject.id'))
+    class_id = Column(Integer, ForeignKey('class.id'))
+    term_id = Column(Integer, ForeignKey('term.id'))
+    year_id = Column(Integer, ForeignKey('year.id'))
     exam_score = Column(Integer, nullable=False)
     test_score = Column(Integer, nullable=False)
-    grade = Column(String(2), nullable=False)
+    grade = Column(Integer, nullable=False)
     created_at = Column(DateTime, default=func.now(), nullable=False)
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now(), nullable=False)
     

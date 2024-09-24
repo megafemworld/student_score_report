@@ -12,8 +12,8 @@
 <body>
     <header class="chel">
         <img src="/temp/assest/lap logo.png" alt="logo" class="logo">
-        <h3 class="kobi"><i class="material-icons"></i> WELCOME : Admin.......</h3>
-        <h2 class="lobk">logout</h2>
+        <h3 class="kobi"><i class="material-icons"></i> ADMIN.... : {{current_user.first_name}}-{{current_user.last_name}}</h3>
+        <a href="{{ url_for('logout') }}" class="lobk">Logout</a>
     </header>
 
     <div class="jala">
@@ -23,30 +23,49 @@
         <div class="keg">
             <div class="keg1">
             <div class="led">
-                <img src="/temp/assest/assest_database/resized_default_profile.png" alt="profile-pic" class="gss">
+                <img src='{{ imagefile }}' alt="profile-pic" class="gss">
+            </div>
+            <div class="mah">
             </div>
             <div class="paga">
+                <h1 class="poja">SCHOOL-NAME </h1>
+                <h3>ALX TECH COLLEGE</h3>
                 <h1 class="poja">Name</h1>
-                <h3>Debby joe</h3>
+                <h3>{{current_user.first_name}} {{current_user.last_name}}</h3>
                 <h1 class="poja"> USER-ID</h1>
-                <h2>76438-ossff-4ws</h2>
+                <h2>{{current_user.user_id}}</h2>
                 <h1 class="poja">DEPARTMENT</h1>
                 <h3>Computer Science</h3>
-                <h1 class="poja">GENDER</h1>
-                <h3>Female</h3>
                 <h1 class="poja">ROLE</h1>
                 <H3>Head of ICT</H3>
                 
             </div>
         </div>
         </div>
-        <div class="keg">box 2</div>
-        <div class="keg">box3</div>
-        <div class="keg">box 4</div>
-        <div class="keg">box 5</div>
         <div class="keg">
-            <div class="hss">
-            <img src="" alt="">
+            <div class="a">
+                <h2 class="jo">NO - 34 </h2>
+            <h1 class="hj"> Register Student</h1>
+
+            </div>
+            
+        </div>
+        <div class="keg">
+            <a href="{{url_for('teach_reg')}}" class="low">Teacher Registration</a>
+        </div>
+        <div class="keg">
+            <h2>
+                <a class='hrt' href="{{url_for('student')}}">REGISTER STUDENT</a>
+            </h2>
+        </div>
+        <div class="keg">
+            <div>
+                <a class="sd" href="{{url_for('admin_reg')}}">STUDENT REGISTRATION</a>
+            </div>
+        </div>
+        <div class="keg">
+
+
         </div>
 
         </div>
