@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import FieldList, FormField, PasswordField, IntegerField, StringField, SelectField, RadioField, SubmitField,FileField, HiddenField
+from wtforms import FieldList, FormField, PasswordField, IntegerField, StringField, SelectField, RadioField, SubmitField,FileField, HiddenField, TextAreaField
 from wtforms.validators import DataRequired, NumberRange,Length,EqualTo, ValidationError
 from flask_wtf.file import FileField, FileRequired,FileAllowed
 
@@ -56,7 +56,9 @@ class AddStudent(FlaskForm):
 #     Name = StringField('Term', validators=[DataRequired()])
 #     submit = SubmitField('Register')
 
-
+class Subjects(FlaskForm):
+    Name = TextAreaField('Subjects (Comma-Separated)', validators=[DataRequired()])
+    submit = SubmitField('Register')
 
 
 class AssignSubject(FlaskForm):
@@ -66,9 +68,7 @@ class AssignSubject(FlaskForm):
     Term = RadioField('Term', )
     submit = SubmitField('Register')
 
-class Subjects(FlaskForm):
-    Name = StringField('Subject', validators=[DataRequired()])
-    submit = SubmitField('Register')
+
 
 class StudentData(FlaskForm):
     Student_id = StringField('Student ID', render_kw={'readonly': True})

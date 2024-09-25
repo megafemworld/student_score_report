@@ -1,9 +1,9 @@
 from flask import Flask,render_template, request, redirect, url_for,flash, current_app, Blueprint,send_from_directory
 from generate import userid_generate, pass_generate, teachid_generate,regno_generate,redirect_to_dashboard
-from db_record.cretedb import Admin, Teacher, Student,Year,Class,Term
+from db_record.cretedb import Admin, Teacher, Student,Year,Class,Term,Subject
 from werkzeug.security import check_password_hash
 from db_record.database import session
-from form import AddAdmin, AddTeacher, AddStudent,LoginForm
+from form import AddAdmin, AddTeacher, AddStudent,LoginForm,Subjects
 from flask_login import LoginManager, login_required, current_user, login_user,logout_user
 
 import logging
@@ -236,6 +236,7 @@ def student():
     return render_template('student.html', cat=cat)
 
 @app.route('/logout')
+@login_required
 def logout(): 
     logout_user()
     return redirect(url_for('login'))
@@ -254,9 +255,30 @@ def result_upload():
     return render_template('result_upload.html')
 
 
-@app.route('/subject.html')
+@app.route('/admin.html/subject.html', methods=['GET', 'POST'])
 def subject():
-    return render_template('subject.html')
+    form = Subjects()
+    if form.validate_on_submit():
+        subjects_input = form.Name.data
+        print(f"Input from form: {subjects_input}")
+        if isinstance(subjects_input, str):
+            subjects_list = [subject.strip() for subject in subjects_input.split(',')]
+
+            for subject_name in subjects_list:
+                if subject_name: 
+                    existing_subject = session.query(Subject).filter_by(name=subject_name).first()
+                    if existing_subject:
+                        flash(f'Subject "{subject_name}" already exists!', 'danger')
+                    else:
+                        new_subject = Subject(name=subject_name)
+                        session.add(new_subject)
+
+            session.commit()
+            flash(f'Subjects added successfully! by Admin {current_user.first_name}', 'success')
+            return redirect(url_for('subject')) 
+        else:
+            flash('Invalid input. Please enter subjects as a comma-separated string.', 'danger')
+    return render_template('subject.html', form=form)
 
 
 
