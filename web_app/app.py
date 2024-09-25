@@ -1,6 +1,6 @@
 from flask import Flask,render_template, request, redirect, url_for,flash, current_app, Blueprint,send_from_directory
 from generate import userid_generate, pass_generate, teachid_generate,regno_generate,redirect_to_dashboard
-from db_record.cretedb import Admin, Teacher, Student,Year,Class,Term,Subject
+from db_record.cretedb import Admin, Teacher, Student,Year,Class,Term, TeachingAssignment, Subject, Score
 from werkzeug.security import check_password_hash
 from db_record.database import session
 from form import AddAdmin, AddTeacher, AddStudent,LoginForm,Subjects
@@ -241,18 +241,18 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-@app.route('/teacher.html')
-def teacher():
-    return render_template('teacher.html')
+# @app.route('/teacher.html')
+# def teacher():
+#     return render_template('teacher.html')
 
-@app.route('/result.html')
-def result():
-    return render_template('result.html')
+# @app.route('/result.html')
+# def result():
+#     return render_template('result.html')
 
 
-@app.route('/result_upload.html')
-def result_upload():
-    return render_template('result_upload.html')
+# @app.route('/result_upload.html')
+# def result_upload():
+#     return render_template('result_upload.html')
 
 
 @app.route('/admin.html/subject.html', methods=['GET', 'POST'])
