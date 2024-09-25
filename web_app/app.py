@@ -3,7 +3,7 @@ from generate import userid_generate, pass_generate, teachid_generate,regno_gene
 from db_record.cretedb import Admin, Teacher, Student,Year,Class,Term, TeachingAssignment, Subject, Score
 from werkzeug.security import check_password_hash
 from db_record.database import session
-from form import AddAdmin, AddTeacher, AddStudent,LoginForm,Subjects
+from form import AddAdmin, AddTeacher, AddStudent,LoginForm,Subjects,CourseForm,StudentData
 from flask_login import LoginManager, login_required, current_user, login_user,logout_user
 
 import logging
