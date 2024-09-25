@@ -1,9 +1,9 @@
-from flask import Flask,render_template, request, redirect, url_for,flash, current_app, Blueprint
+from flask import Flask,render_template, request, redirect, url_for,flash, current_app, Blueprint,send_from_directory
 from generate import userid_generate, pass_generate, teachid_generate,regno_generate,redirect_to_dashboard
 from db_record.cretedb import Admin, Teacher, Student,Year,Class,Term, TeachingAssignment, Subject, Score
 from werkzeug.security import check_password_hash
 from db_record.database import session
-from form import AddAdmin, AddTeacher, AddStudent,LoginForm, StudentData, CourseForm
+from form import AddAdmin, AddTeacher, AddStudent,LoginForm, StudentData, CourseForm,Subjects
 from flask_login import LoginManager, login_required, current_user, login_user,logout_user
 from sqlalchemy.orm import joinedload
 
@@ -168,6 +168,9 @@ def login():
     
 @app.route('/admin.html/admin_reg.html', methods=['POST','GET'])
 def admin_reg():
+    if current_user.__class__.__name__ != 'Admin':
+        flash('You are not authorized to view this page', 'danger')
+        return redirect(url_for('login'))
     best = AddAdmin()
     if best.validate_on_submit():
         try:
@@ -205,6 +208,9 @@ def admin():
 
 @app.route('/admin.html/teacher_reg.html', methods=['POST','GET'])
 def teach_reg():
+    if current_user.__class__.__name__ != 'Admin':
+        flash('You are not authorized to view this page', 'danger')
+        return redirect(url_for('login'))
     jago = AddTeacher()
     if jago.validate_on_submit():
         try:
@@ -220,7 +226,7 @@ def teach_reg():
             teach.set_password(password)
             session.add(teach)
             session.commit()
-            flash(f"Account created for {jago.First_Name.data} {jago.Last_Name.data} was sucessful. userid ={teach_id} password = {password}", 'success')
+            flash(f"Account created for {jago.First_Name.data} {jago.Last_Name.data} was sucessful", 'success')
             return redirect(url_for('teach_reg'))
         except Exception as e:
              logging.error(f"error creating account: {str(e)}")
@@ -234,6 +240,9 @@ def teach_reg():
 
 @app.route('/admin.html/student.html', methods=['GET','POST'])
 def student():
+    if current_user.__class__.__name__ != 'Admin':
+        flash('You are not authorized to view this page', 'danger')
+        return redirect(url_for('login'))
     cat = AddStudent()
     cat.class_id.choices = selectid(Class) 
     cat.term_id.choices = selectid(Term)  
@@ -255,7 +264,7 @@ def student():
             student.set_password(password)
             session.add(student)
             session.commit()
-            flash(f"Student: {cat.First_Name.data} {cat.Last_Name.data} Registration was sucessful. userid ={reg_no} password = {password}", 'success')
+            flash(f"Student: {cat.First_Name.data} {cat.Last_Name.data} Registration was sucessful.", 'success')
             return redirect(url_for('student'))
     else:
         logging.error(f"Form validation errors: {cat.errors}")
