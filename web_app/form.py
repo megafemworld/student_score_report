@@ -56,9 +56,6 @@ class AddStudent(FlaskForm):
 #     Name = StringField('Term', validators=[DataRequired()])
 #     submit = SubmitField('Register')
 
-
-
-
 class AssignSubject(FlaskForm):
     Teacher = StringField('Teacher ID', validators=[DataRequired()])
     Subjects = SelectField('Subjects',)

@@ -1,3 +1,4 @@
+from flask_login import UserMixin
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, Integer, ForeignKey, DateTime, func, BigInteger, Sequence, CheckConstraint
 from sqlalchemy.orm import relationship
@@ -11,14 +12,19 @@ Base = declarative_base()
 
 
 
+<<<<<<< HEAD
 
 class Admin(Base,UserMixin):
+=======
+class Admin(UserMixin,base):
+>>>>>>> 55a1eacf2ae0114acb78a864fafae87fe4fb34e1
     __tablename__ = 'admin'
     user_id = Column(String(40), primary_key=True, nullable=False, unique=True)
     first_name = Column(String(60), nullable=False)
     last_name = Column(String(60), nullable=False)
     password = Column(String(400), nullable=False)
     photo = Column(String(500), nullable=True)
+    role = 'admin'
     
     def set_password(self,password):
         self.password = generate_password_hash(password)
@@ -30,7 +36,11 @@ class Admin(Base,UserMixin):
     def get_id(self):
         return self.user_id
 
+<<<<<<< HEAD
 class Student(Base,UserMixin):
+=======
+class Student(UserMixin, base):
+>>>>>>> 55a1eacf2ae0114acb78a864fafae87fe4fb34e1
     __tablename__ = 'student'
     reg_no = Column(String(400), nullable=False, unique=True, primary_key=True)
     first_name = Column(String(60), nullable=False)
@@ -40,7 +50,9 @@ class Student(Base,UserMixin):
     class_id = Column(Integer, ForeignKey('class.id'))
     term_id = Column(Integer, ForeignKey('term.id'))
     year_id = Column(Integer, ForeignKey('year.id'))
+    role = 'student'
     
+<<<<<<< HEAD
     
     def set_password(self,password):
         self.password = generate_password_hash(password)
@@ -54,12 +66,16 @@ class Student(Base,UserMixin):
         
     
 class Teacher(Base,UserMixin):
+=======
+class Teacher(UserMixin, base):
+>>>>>>> 55a1eacf2ae0114acb78a864fafae87fe4fb34e1
     __tablename__ = 'teacher'
     teach_id = Column(String(400), primary_key=True, unique=True, nullable=False)
     first_name = Column(String(60), nullable=False)
     last_name = Column(String(60), nullable=False)
     password = Column(String(500), nullable=False)
     photo = Column(String(500), nullable=True)
+<<<<<<< HEAD
     
     
     def set_password(self,password):
@@ -71,6 +87,9 @@ class Teacher(Base,UserMixin):
     
     def get_id(self):
         return self.teach_id
+=======
+    role = 'teacher'
+>>>>>>> 55a1eacf2ae0114acb78a864fafae87fe4fb34e1
 
 class Class(Base):
     __tablename__ = 'class'
@@ -155,6 +174,7 @@ class Score(Base):
 
 Student.scores = relationship("Score", order_by=Score.id, back_populates="student")
 Subject.scores = relationship("Score", order_by=Score.id, back_populates="subject")
+<<<<<<< HEAD
 
     
 
@@ -164,3 +184,5 @@ Subject.scores = relationship("Score", order_by=Score.id, back_populates="subjec
     
 
     
+=======
+>>>>>>> 55a1eacf2ae0114acb78a864fafae87fe4fb34e1
