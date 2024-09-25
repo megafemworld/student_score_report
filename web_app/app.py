@@ -423,6 +423,33 @@ def result_upload(class_name, subject, year, term):
 
 
 
+@app.route('/result.html', methods=['GET', 'POST'])
+@login_required
+def result():
+    if current_user.__class__.__name__ != 'Student':
+        flash('You are not authorized to view this page', 'danger')
+        return redirect(url_for('login'))
+    student_id = current_user.get_id()
+    student_detail = session.query(Student).filter_by(reg_no=student_id).first()
+    if not student:
+        flash('Student not found', 'danger')
+        return redirect(url_for('login'))
+    student_name = student_detail.first_name + ' ' + student_detail.last_name
+    student_reg = student_detail.reg_no
+    student_class = student_detail.class_id
+    student_term = student_detail.term_id
+    student_year = student_detail.year_id
+
+    scores = session.query(Score).join(Student).join(Subject).filter(
+        Score.student_id == student_id,
+        Student.class_id == student_class,
+        Student.term_id == student_term,
+        Student.year_id == student_year
+    ).all()
+
+    return render_template('result.html' , scores=scores, student_name=student_name, student_id=student_id, student_class=student_class,student_term=student_term)
+
+
 
 
 if __name__ == "__main__":
