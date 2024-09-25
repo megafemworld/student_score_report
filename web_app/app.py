@@ -22,6 +22,32 @@ app.config['SECRET_KEY'] = 'secret'
 #     return render_template('index.html')
 
 
+class_id_to_name = {
+    1: 'JSS1',
+    2: 'JSS2',
+    3: 'JSS3',
+    4: 'SSS1',
+    5: 'SSS2',
+    6: 'SSS3',
+    # Add more mappings if you have additional classes
+}
+
+class_name_to_id = {name: class_id for class_id, name in class_id_to_name.items()}
+
+# Function to get class ID through class name
+def get_class_id(class_name):
+    return class_name_to_id.get(class_name)
+
+def students_load(class_name):
+    students_in_class = (
+    session.query(Student)
+    .join(Class)  # Join the Class table
+    .filter(Class.cls_name == class_name)  # Filter by class name
+    .all()  # Execute the query and get all results
+)
+    return students_in_class
+
+
 
 login_manager = LoginManager(app)
 login_manager.init_app(app)
