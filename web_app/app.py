@@ -1,10 +1,11 @@
-from flask import Flask,render_template, request, redirect, url_for,flash, current_app, Blueprint,send_from_directory
+from flask import Flask,render_template, request, redirect, url_for,flash, current_app, Blueprint
 from generate import userid_generate, pass_generate, teachid_generate,regno_generate,redirect_to_dashboard
 from db_record.cretedb import Admin, Teacher, Student,Year,Class,Term, TeachingAssignment, Subject, Score
 from werkzeug.security import check_password_hash
 from db_record.database import session
-from form import AddAdmin, AddTeacher, AddStudent,LoginForm,Subjects,CourseForm,StudentData
+from form import AddAdmin, AddTeacher, AddStudent,LoginForm, StudentData, CourseForm
 from flask_login import LoginManager, login_required, current_user, login_user,logout_user
+from sqlalchemy.orm import joinedload
 
 import logging
 import os
