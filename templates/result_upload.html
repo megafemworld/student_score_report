@@ -110,36 +110,39 @@
     </div>
     <!-- /#page-wrapper -->
 </div><!-- /#wrapper -->
-<h2 class="assigned">JSS1 - Mathematics</h2>
+<h2 class="assigned">{{ class_name }} - {{subject_name}}</h2>
 <div class="container mt-4">
-    <form id="student-form">
-        <!-- Form Group 1 -->
+    <form id="student-form" method="POST">
+        <!-- Add CSRF token manually if needed -->
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        
         {% for student in students %}
         <div class="form-row align-items-center mb-3" id="form-{{ loop.index }}">
             <div class="col-md-2">
                 <label for="studentId{{ loop.index }}">Student ID</label>
-                <input type="text" class="form-control" id="studentId{{ loop.index }}" value="{{ student.id }}" readonly>
+                <input type="text" class="form-control" id="studentId{{ loop.index }}" name="students[{{ loop.index0 }}][student_id]" value="{{ student.reg_no }}" readonly>
             </div>
             <div class="col-md-2">
                 <label for="studentName{{ loop.index }}">Student Name</label>
-                <input type="text" class="form-control" id="studentName{{ loop.index }}" value="{{ student.name }}" readonly>
+                <input type="text" class="form-control" id="studentName{{ loop.index }}" name="students[{{ loop.index0 }}][student_name]" value="{{ student.first_name | upper }} {{ student.last_name | upper }}" readonly>
             </div>
             <div class="col-md-2">
                 <label for="ca{{ loop.index }}">CA</label>
-                <input type="number" class="form-control ca-input" id="ca{{ loop.index }}" placeholder="Enter CA">
+                <input type="number" class="form-control ca-input" id="ca{{ loop.index }}" name="students[{{ loop.index0 }}][ca]" placeholder="Enter CA" required>
             </div>
             <div class="col-md-2">
                 <label for="exam{{ loop.index }}">Exam</label>
-                <input type="number" class="form-control exam-input" id="exam{{ loop.index }}" placeholder="Enter Exam">
+                <input type="number" class="form-control exam-input" id="exam{{ loop.index }}" name="students[{{ loop.index0 }}][exam_score]" placeholder="Enter Exam" required>
             </div>
             <div class="col-md-2">
                 <label for="total{{ loop.index }}">Total</label>
-                <input type="number" class="form-control total-input" id="total{{ loop.index }}" placeholder="Total" readonly>
+                <input type="number" class="form-control total-input" id="total{{ loop.index }}" name="students[{{ loop.index0 }}][total]" placeholder="Total" readonly>
             </div>
         </div>
         {% endfor %}
-        <button type="submit" class="btn btn-primary" id="upload-all">Upload All Entries</button>
+        <button type="submit" class="btn btn-primary" id="upload-all">Upload Results</button>
     </form>
+    
     <!-- General Upload Button -->
 </div>
 
@@ -170,40 +173,7 @@
         $(document).on('input', '.ca-input, .exam-input', function() {
             calculateTotal();
         });
-
-        // Upload All Entries
-        $('#upload-all').on('click', function() {
-            let allEntries = [];
-
-            $('.form-row').each(function() {
-                const studentId = $(this).find('input[id^="studentId"]').val();
-                const studentName = $(this).find('input[id^="studentName"]').val();
-                const ca = $(this).find('input[id^="ca"]').val();
-                const exam = $(this).find('input[id^="exam"]').val();
-                const total = $(this).find('input[id^="total"]').val();
-
-                if (ca && exam && total) {
-                    allEntries.push({ studentId, studentName, ca, exam, total });
-                }
-            });
-
-            // Send the data to the server for uploading
-            $.ajax({
-                url: '/upload-result',
-                method: 'POST',
-                data: JSON.stringify(allEntries),
-                contentType: 'application/json',
-                success: function(response) {
-                    console.log('Upload successful:', response);
-                    alert('Result uploaded successfully!');
-                },
-                error: function(error) {
-                    console.error('Upload failed:', error);
-                    alert('Failed to upload result. Please try again.');
-                }
-            });
-        });
-    });
+    })
 </script>
 </body>
 </html>

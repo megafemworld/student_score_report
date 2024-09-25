@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from .cretedb import base
+from .cretedb import Base
 
 
 
@@ -32,7 +32,7 @@ class Database:
     
     def creat(self):
         try:
-            base.metadata.create_all(bind=self.__engine)
+            Base.metadata.create_all(bind=self.__engine)
             print("created sucessfuly")
         except Exception as e:
             print(f"Reason being : {e}")
