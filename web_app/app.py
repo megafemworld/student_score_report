@@ -384,12 +384,18 @@ def result_upload(class_name, subject, year, term):
     form = CourseForm()
     if request.method == 'GET':
         for student in students:
-            student_form = StudentData(
-                student_id=student.reg_no,
-                student_name=f"{student.first_name} {student.last_name}"
-            )
-            form.students.append_entry(student_form)
-
+            student_form = StudentData()
+            student_form.student_id.data = student.reg_no
+            student_form.student_name.data = f"{student.first_name} {student.last_name}"
+            form.students.append_entry(student_form) 
+    for student_form in form.students:
+        student_id = student_form.student_id.data
+        exam_score = student_form.exam_score.data
+        test_score = student_form.test_score.data
+        grade = student_form.grade.data
+        print(f"Student ID: {student_id}, Exam Score: {exam_score}, Test Score: {test_score}, Grade: {grade}")
+           
+    print(request.form)
     if form.validate_on_submit():
         print("Form submitted and valid!")
         for student_form in form.students:

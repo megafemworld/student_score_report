@@ -70,7 +70,7 @@ class Subjects(FlaskForm):
 class StudentData(FlaskForm):
     student_id = StringField('Student ID', render_kw={'readonly': True})
     student_name = StringField('Student Name', render_kw={'readonly': True})
-    ca = IntegerField('CA', validators=[DataRequired(), NumberRange(min=0, max=30)])
+    test_score = IntegerField('Test Score', validators=[DataRequired(), NumberRange(min=0, max=30)])
     exam_score = IntegerField('Exam Score', validators=[DataRequired(), NumberRange(min=0, max=70)])
     grade = IntegerField('Grade', validators=[DataRequired(), NumberRange(min=0, max=100)], render_kw={'readonly': True})
     
