@@ -105,11 +105,11 @@
             </div>
             <div class="col-md-2">
                 <label for="ca{{ loop.index }}">Test Score</label>
-                <input type="number" class="form-control ca-input" id="ca{{ loop.index }}" name="students[{{ loop.index0 }}][test_score]" placeholder="Enter Test Score" required>
+                <input type="number" class="form-control ca-input" id="ca{{ loop.index }}" name="test_score_{{ student.id }}" placeholder="Enter Test Score" required>
             </div>
             <div class="col-md-2">
                 <label for="exam{{ loop.index }}">Exam Score</label>
-                <input type="number" class="form-control exam-input" id="exam{{ loop.index }}" name="students[{{ loop.index0 }}][exam_score]" placeholder="Enter Exam Score" required>
+                <input type="number" class="form-control exam-input" id="exam{{ loop.index }}" name="exam_score_{{ student.id }}" placeholder="Enter Exam Score" required>
             </div>
             <div class="col-md-2">
                 <label for="total{{ loop.index }}">Total</label>
