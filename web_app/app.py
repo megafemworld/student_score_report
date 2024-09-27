@@ -408,37 +408,35 @@ def result_upload(class_name, subject, year, term):
     students = students_load(class_name)
     
     form = CourseForm()
-    if request.method == 'GET':
-        for student in students:
-            student_form = StudentData()
-            student_form.student_id.data = student.reg_no
-            student_form.student_name.data = f"{student.first_name} {student.last_name}"
-            form.students.append_entry(student_form) 
-    for student_form in form.students:
-        student_id = student_form.student_id.data
-        exam_score = student_form.exam_score.data
-        test_score = student_form.test_score.data
-        grade = student_form.grade.data
-        print(f"Student ID: {student_id}, Exam Score: {exam_score}, Test Score: {test_score}, Grade: {grade}")
-           
-    print(request.form)
-    if form.validate_on_submit():
-        print("Form submitted and valid!")
-        for student_form in form.students:
-            student_id = student_form.student_id.data
-            exam_score = student_form.exam_score.data
-            test_score = student_form.test_score.data
-            grade = student_form.grade.data
+
+    for student in students:
+        student_form = StudentData()
+        student_form.student_id.data = student.reg_no
+        student_form.student_name.data = f"{student.first_name} {student.last_name}"
+        form.students.append_entry(student_form)
+    
+    if request.method == 'POST':
+        print(request.form)
+        student_count = len([key for key in request.form.keys() if key.startswith('students[') and key.endswith('[student_id]')])
+        for i in range(student_count):
+            student_id_form = request.form.get(f'students[{i}][student_id]')
+            test_score_form = int(request.form.get(f'students[{i}][test_score]'))
+            exam_score_form = int(request.form.get(f'students[{i}][exam_score]'))
+            total = int(request.form.get(f'students[{i}][grade]'))
+            
+            print(f"after form: Student ID: {student_id_form}, Test Score: {test_score_form}, Exam Score: {exam_score_form}, Total: {total}")
+
             score = Score(
-                student_id=student_id,
+                student_id=student_id_form,
                 subject_id=subject_id,
-                exam_score=exam_score,
-                test_score=test_score,
+                exam_score=exam_score_form,
+                test_score=test_score_form,
                 year_id=year,
                 class_id=get_class_id(class_name),
                 term_id=term,
-                grade=grade
+                grade=total
             )
+            print(f"Saving Score: Student ID: {score.student_id}, Subject ID: {score.subject_id}, Exam Score: {score.exam_score}, Test Score: {score.test_score}, Year ID: {score.year_id}, Class ID: {score.class_id}, Term ID: {score.term_id}, Grade: {score.grade}")
             session.add(score)
         session.commit()
         flash('Results uploaded successfully', 'success')
@@ -473,7 +471,7 @@ def result():
         Student.year_id == student_year
     ).all()
 
-    return render_template('result.html' , scores=scores, student_name=student_name, student_id=student_id, student_class=student_class,student_term=student_term)
+    return render_template('result.html' , scores=scores, student_name=student_name, student_id=student_id, student_class=class_id_to_name.get(student_detail.class_id),student_term=student_term)
 
 
 

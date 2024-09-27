@@ -57,10 +57,10 @@
                 <img src="student-image.jpg" alt="Student Image">
             </div>
             <div class="col-md-9">
-                <p><strong>Name:</strong>{{ student_name }}</p>
+                <p><strong>Name:</strong> {{ student_name | upper }}</p>
                 <p><strong>Student ID:</strong> {{ student_id }}</p>
-                <p><strong>Class:</strong>{{ student_class }}</p>
-                <p><strong>Term:</strong>{{ student_term }}</p>
+                <p><strong>Class:</strong> {{ student_class | upper }}</p>
+                <p><strong>Term:</strong> {{ student_term }}</p>
             </div>
         </div>
     </div>
@@ -81,8 +81,8 @@
                 <tr>
 
                     <td>{{ score.subject.name }}</td>
-                    <td>{{ score.ca }}</td>
-                    <td>{{ score.exam }}</td>
+                    <td>{{ score.test_score }}</td>
+                    <td>{{ score.exam_score }}</td>
                     <td>{{score.grade }}</td>
                 </tr>
                 {% endfor%}

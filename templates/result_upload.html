@@ -94,26 +94,26 @@
 <div class="container mt-4">
     <form id="student-form" method="POST">
         {% for student in students %}
-        <div class="form-row align-items-center mb-3" id="form-{{ loop.index }}">
+        <div class="form-row align-items-center mb-3" id="form-{{ loop.index0 }}">
             <div class="col-md-2">
-                <label for="studentId{{ loop.index }}">Student ID</label>
-                <input type="text" class="form-control" id="studentId{{ loop.index }}" name="students[{{ loop.index0 }}][student_id]" value="{{ student.reg_no }}" readonly>
+                <label for="studentId-{{ loop.index0 }}">Student ID</label>
+                <input type="text" class="form-control" id="studentId-{{ loop.index0 }}" name="students[{{ loop.index0 }}][student_id]" value="{{ student.reg_no }}" readonly>
             </div>
             <div class="col-md-2">
-                <label for="studentName{{ loop.index }}">Student Name</label>
-                <input type="text" class="form-control" id="studentName{{ loop.index }}" name="students[{{ loop.index0 }}][student_name]" value="{{ student.first_name | upper }} {{ student.last_name | upper }}" readonly>
+                <label for="studentName-{{ loop.index0 }}">Student Name</label>
+                <input type="text" class="form-control" id="studentName-{{ loop.index0 }}" name="students[{{ loop.index0 }}][student_name]" value="{{ student.first_name | upper }} {{ student.last_name | upper }}" readonly>
             </div>
             <div class="col-md-2">
-                <label for="ca{{ loop.index }}">Test Score</label>
-                <input type="number" class="form-control ca-input" id="ca{{ loop.index }}" name="test_score_{{ student.id }}" placeholder="Enter Test Score" required>
+                <label for="test_score-{{ loop.index0 }}">Test Score</label>
+                <input type="number" class="form-control ca-input" id="test_score-{{ loop.index0 }}" name="students[{{ loop.index0 }}][test_score]" placeholder="Enter Test Score" required>
             </div>
             <div class="col-md-2">
-                <label for="exam{{ loop.index }}">Exam Score</label>
-                <input type="number" class="form-control exam-input" id="exam{{ loop.index }}" name="exam_score_{{ student.id }}" placeholder="Enter Exam Score" required>
+                <label for="exam_score-{{ loop.index0 }}">Exam Score</label>
+                <input type="number" class="form-control exam-input" id="exam_score-{{ loop.index0 }}" name="students[{{ loop.index0 }}][exam_score]" placeholder="Enter Exam Score" required>
             </div>
             <div class="col-md-2">
-                <label for="total{{ loop.index }}">Total</label>
-                <input type="number" class="form-control total-input" id="total{{ loop.index }}" name="students[{{ loop.index0 }}][total]" placeholder="Total" readonly>
+                <label for="total-{{ loop.index0 }}">Total</label>
+                <input type="number" class="form-control total-input" id="total-{{ loop.index0 }}" name="students[{{ loop.index0 }}][grade]" placeholder="Total" readonly>
             </div>
         </div>
         {% endfor %}
@@ -142,7 +142,7 @@
         $(document).on('input', '.ca-input, .exam-input', function() {
             calculateTotal();
         });
-    })
+    });
 </script>
 </body>
 </html>
